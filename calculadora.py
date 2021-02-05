@@ -4,76 +4,115 @@ from math import sqrt
 
 def calculate():
     screen_tot = screen.get()
-    if '+' in screen_tot:
-        if screen_tot.count('+') == 1:
-            result = screen_tot.split('+')
-            result_screen = float(result[0]) + float(result[1])
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
-    if '-' in screen_tot:
-        if screen_tot.count('-') == 1:
-            result = screen_tot.split('-')
-            result_screen = float(result[0]) - float(result[1])
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
-    if 'x' in screen_tot:
-        if screen_tot.count('x') == 1:
-            result = screen_tot.split('x')
-            result_screen = float(result[0]) * float(result[1])
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
-    if '/' in screen_tot:
-        if screen_tot.count('/') == 1:
-            result = screen_tot.split('/')
-            result_screen = float(result[0]) / float(result[1])
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
-    if screen_tot[0] == '√':
-        if screen_tot.count('√') == 1:
-            result = screen_tot.split('√')
-            result_screen = sqrt(float(result[1]))
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
-    if '^' in screen_tot:
-        if screen_tot.count('^') == 1:
-            result = screen_tot.split('^')
-            result_screen = float(result[0]) ** float(result[1])
-            screen.set(str(result_screen))
-        else:
-            screen.set('Syntax invalidate')
+    if len(screen_tot) > 1:
+        if '+' in screen_tot:
+            if screen_tot.count('+') == 1:
+                result = screen_tot.split('+')
+                if result[1] != '':
+                    result_screen = str(float(result[0]) + float(result[1]))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                        else:
+                            screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
+        if '-' in screen_tot:
+            if screen_tot.count('-') == 1:
+                result = screen_tot.split('-')
+                if result[1] != '':
+                    result_screen = str(float(result[0]) - float(result[1]))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                    else:
+                        screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
+        if 'x' in screen_tot:
+            if screen_tot.count('x') == 1:
+                result = screen_tot.split('x')
+                if result[1] != '':
+                    result_screen = str(float(result[0]) * float(result[1]))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                        else:
+                            screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
+        if '/' in screen_tot:
+            if screen_tot.count('/') == 1:
+                result = screen_tot.split('/')
+                if result[1] != '':
+                    result_screen = str(float(result[0]) / float(result[1]))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                        else:
+                            screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
+        if screen_tot[0] == '√':
+            if screen_tot.count('√') == 1:
+                result = screen_tot.split('√')
+                if result[1] != '':
+                    result_screen = str(sqrt(float(result[1])))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                        else:
+                            screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
+        if '^' in screen_tot:
+            if screen_tot.count('^') == 1:
+                result = screen_tot.split('^')
+                if result[1] != '':
+                    result_screen = str(float(result[0]) ** float(result[1]))
+                    for c in result_screen.split('.')[1]:
+                        if c != '0':
+                            screen.set(str(result_screen))
+                            break
+                        else:
+                            screen.set(str(result_screen.split('.')[0]))
+            else:
+                screen.set('Syntax invalidate')
 
 
 def add_screen(bnt_press):
-    valor = screen.get()
-    valor += bnt_press
-    screen.set(valor)
+    value = screen.get()
+    if value != 'Syntax invalidate':
+        valor = screen.get()
+        valor += bnt_press
+        screen.set(valor)
 
 
 def remove():
-    valor = screen.get()[0:-1]
-    screen.set(valor)
+    if screen.get() != 'Syntax invalidate':
+        valor = screen.get()[0:-1]
+        screen.set(valor)
 
 
-def wipe():
-    screen.set('')
+def validate():
+    calculate()
 
 
 root = tkinter.Tk()
-root.title('Calulcadora')
-root.geometry('296x318')
+root.title('Calulcadora Tk')
 root.resizable(width=False, height=False)
 
 screen = tkinter.StringVar()
 
-label_screen = tkinter.Label(root, font='Arial 20', width=18,
+label_screen = tkinter.Label(root, font='Arial 20', bd=2, relief='solid',
+                             width=18, height=2,
                              textvariable=screen, anchor='e'
-                             ).grid(row=0, columnspan=4)
-
+                             ).grid(row=0, columnspan=4, sticky='we')
 
 square = tkinter.Button(root, font='Arial 20', width=4, text='√',
                         command=lambda: add_screen('√')
@@ -84,7 +123,7 @@ expo = tkinter.Button(root, font='Arial 20', width=4, text='x²',
                       ).grid(row=1, column=1)
 
 clear = tkinter.Button(root, font='Arial 20', width=4, text='C',
-                       command=wipe
+                       command=lambda: screen.set('')
                        ).grid(row=1, column=2)
 
 delete = tkinter.Button(root, font='Arial 20', width=4, text='<-',
@@ -148,7 +187,7 @@ bnt0 = tkinter.Button(root, font='Arial 20', width=4, text='0',
                       ).grid(row=5, column=1)
 
 equal = tkinter.Button(root, font='Arial 20', width=4, text='=',
-                       command=calculate
+                       command=validate
                        ).grid(row=5, column=2)
 
 plus = tkinter.Button(root, font='Arial 20', width=4, text='+',
