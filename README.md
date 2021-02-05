@@ -1,2 +1,2 @@
 # calculadora-tkinter
- calculadora em python
+ projeto em desenvolvimento de uma calculadora em python usando a biblioteca tkinter
