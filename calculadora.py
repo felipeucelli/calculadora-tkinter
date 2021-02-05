@@ -1,9 +1,51 @@
 import tkinter
-# import math
+from math import sqrt
 
 
-def calcular():
-    pass
+def calculate():
+    screen_tot = screen.get()
+    if '+' in screen_tot:
+        if screen_tot.count('+') == 1:
+            result = screen_tot.split('+')
+            result_screen = float(result[0]) + float(result[1])
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
+    if '-' in screen_tot:
+        if screen_tot.count('-') == 1:
+            result = screen_tot.split('-')
+            result_screen = float(result[0]) - float(result[1])
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
+    if 'x' in screen_tot:
+        if screen_tot.count('x') == 1:
+            result = screen_tot.split('x')
+            result_screen = float(result[0]) * float(result[1])
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
+    if '/' in screen_tot:
+        if screen_tot.count('/') == 1:
+            result = screen_tot.split('/')
+            result_screen = float(result[0]) / float(result[1])
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
+    if screen_tot[0] == '√':
+        if screen_tot.count('√') == 1:
+            result = screen_tot.split('√')
+            result_screen = sqrt(float(result[1]))
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
+    if '^' in screen_tot:
+        if screen_tot.count('^') == 1:
+            result = screen_tot.split('^')
+            result_screen = float(result[0]) ** float(result[1])
+            screen.set(str(result_screen))
+        else:
+            screen.set('Syntax invalidate')
 
 
 def add_screen(bnt_press):
@@ -106,7 +148,7 @@ bnt0 = tkinter.Button(root, font='Arial 20', width=4, text='0',
                       ).grid(row=5, column=1)
 
 equal = tkinter.Button(root, font='Arial 20', width=4, text='=',
-                       command=calcular
+                       command=calculate
                        ).grid(row=5, column=2)
 
 plus = tkinter.Button(root, font='Arial 20', width=4, text='+',
