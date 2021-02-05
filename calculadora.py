@@ -100,10 +100,6 @@ def remove():
         screen.set(valor)
 
 
-def validate():
-    calculate()
-
-
 root = tkinter.Tk()
 root.title('Calulcadora Tk')
 root.resizable(width=False, height=False)
@@ -188,7 +184,7 @@ bnt0 = tkinter.Button(root, font='Arial 20', width=4, text='0',
                       ).grid(row=5, column=1)
 
 equal = tkinter.Button(root, font='Arial 20', width=4, text='=',
-                       command=validate
+                       command=calculate
                        ).grid(row=5, column=2)
 
 plus = tkinter.Button(root, font='Arial 20', width=4, text='+',
