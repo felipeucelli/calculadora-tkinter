@@ -4,7 +4,8 @@ from math import sqrt
 
 def calculate():
     screen_tot = screen.get()
-    if len(screen_tot) > 1:
+    if len(screen_tot) > 1 and screen_tot[0] != '+' and screen_tot[0] != '-' and screen_tot[0] != 'x'\
+            and screen_tot[0] != '/' and screen_tot[0] != '^':
         if '+' in screen_tot:
             if screen_tot.count('+') == 1:
                 result = screen_tot.split('+')
