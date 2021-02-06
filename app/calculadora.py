@@ -4,14 +4,14 @@ from .calculador import calcular
 
 def add_screen(bnt_press, screen):
     value = screen.get()
-    if value != 'Syntax invalidate':
+    if value != 'Syntax error':
         valor = screen.get()
         valor += bnt_press
         screen.set(valor)
 
 
 def remove(screen):
-    if screen.get() != 'Syntax invalidate':
+    if screen.get() != 'Syntax error':
         valor = screen.get()[0:-1]
         screen.set(valor)
 
@@ -19,6 +19,13 @@ def remove(screen):
 def interface(root):
     root.title('Calulcadora Tk')
     root.resizable(width=False, height=False)
+
+    new_menu = tkinter.Menu(root)
+    option_menu = tkinter.Menu(new_menu, tearoff=0)
+    option_menu.add_separator()
+    option_menu.add_command(label='Exit', command=lambda: sair(root))
+    new_menu.add_cascade(label='Option', menu=option_menu)
+    root.config(menu=new_menu)
 
     screen = tkinter.StringVar()
 
@@ -30,23 +37,23 @@ def interface(root):
     clear = tkinter.Button(root, font='Arial 20', width=4, text='C', command=lambda: screen.set(''))
     delete = tkinter.Button(root, font='Arial 20', width=4, text='<-', command=lambda: remove(screen))
 
-    bnt9 = tkinter.Button(root, font='Arial 20', width=4, text='9', command=lambda: add_screen('9', screen))
-    bnt8 = tkinter.Button(root, font='Arial 20', width=4, text='8', command=lambda: add_screen('8', screen))
-    bnt7 = tkinter.Button(root, font='Arial 20', width=4, text='7', command=lambda: add_screen('7', screen))
+    bnt9 = tkinter.Button(root, font='Arial 20', width=4, text=9, command=lambda: add_screen('9', screen))
+    bnt8 = tkinter.Button(root, font='Arial 20', width=4, text=8, command=lambda: add_screen('8', screen))
+    bnt7 = tkinter.Button(root, font='Arial 20', width=4, text=7, command=lambda: add_screen('7', screen))
     div = tkinter.Button(root, font='Arial 20', width=4, text='/', command=lambda: add_screen('/', screen))
 
-    bnt6 = tkinter.Button(root, font='Arial 20', width=4, text='6', command=lambda: add_screen('6', screen))
-    bnt5 = tkinter.Button(root, font='Arial 20', width=4, text='5', command=lambda: add_screen('5', screen))
-    bnt4 = tkinter.Button(root, font='Arial 20', width=4, text='4', command=lambda: add_screen('4', screen))
+    bnt6 = tkinter.Button(root, font='Arial 20', width=4, text=6, command=lambda: add_screen('6', screen))
+    bnt5 = tkinter.Button(root, font='Arial 20', width=4, text=5, command=lambda: add_screen('5', screen))
+    bnt4 = tkinter.Button(root, font='Arial 20', width=4, text=4, command=lambda: add_screen('4', screen))
     times = tkinter.Button(root, font='Arial 20', width=4, text='X', command=lambda: add_screen('x', screen))
 
-    bnt3 = tkinter.Button(root, font='Arial 20', width=4, text='3', command=lambda: add_screen('3', screen))
-    bnt2 = tkinter.Button(root, font='Arial 20', width=4, text='2', command=lambda: add_screen('2', screen))
-    bnt1 = tkinter.Button(root, font='Arial 20', width=4, text='1', command=lambda: add_screen('1', screen))
+    bnt3 = tkinter.Button(root, font='Arial 20', width=4, text=3, command=lambda: add_screen('3', screen))
+    bnt2 = tkinter.Button(root, font='Arial 20', width=4, text=2, command=lambda: add_screen('2', screen))
+    bnt1 = tkinter.Button(root, font='Arial 20', width=4, text=1, command=lambda: add_screen('1', screen))
     minus = tkinter.Button(root, font='Arial 20', width=4, text='-', command=lambda: add_screen('-', screen))
 
     dot = tkinter.Button(root, font='Arial 20', width=4, text='.', command=lambda: add_screen('.', screen))
-    bnt0 = tkinter.Button(root, font='Arial 20', width=4, text='0', command=lambda: add_screen('0', screen))
+    bnt0 = tkinter.Button(root, font='Arial 20', width=4, text=0, command=lambda: add_screen('0', screen))
     equal = tkinter.Button(root, font='Arial 20', width=4, text='=', command=lambda: calcular(screen))
     plus = tkinter.Button(root, font='Arial 20', width=4, text='+', command=lambda: add_screen('+', screen))
 
@@ -76,6 +83,10 @@ def interface(root):
     bnt0.grid(row=5, column=1)
     equal.grid(row=5, column=2)
     plus.grid(row=5, column=3)
+
+
+def sair(root):
+    root.destroy()
 
 
 def start(root):

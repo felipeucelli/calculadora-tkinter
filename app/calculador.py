@@ -17,7 +17,7 @@ def calcular(screen):
                         else:
                             screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
         if '-' in screen_tot and '√' not in screen_tot:
             if screen_tot.count('-') == 1:
                 result = screen_tot.split('-')
@@ -30,7 +30,7 @@ def calcular(screen):
                     else:
                         screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
         if 'x' in screen_tot and '√' not in screen_tot:
             if screen_tot.count('x') == 1:
                 result = screen_tot.split('x')
@@ -43,7 +43,7 @@ def calcular(screen):
                         else:
                             screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
         if '/' in screen_tot and '√' not in screen_tot:
             if screen_tot.count('/') == 1:
                 result = screen_tot.split('/')
@@ -56,7 +56,7 @@ def calcular(screen):
                         else:
                             screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
         if screen_tot[0] == '√' and '+' not in screen_tot and '-' not in screen_tot and 'x' not in screen_tot \
                 and '/' not in screen_tot and '^' not in screen_tot and '.' not in screen_tot:
             if screen_tot.count('√') == 1:
@@ -70,7 +70,7 @@ def calcular(screen):
                         else:
                             screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
         if '^' in screen_tot and '√' not in screen_tot:
             if screen_tot.count('^') == 1:
                 result = screen_tot.split('^')
@@ -83,4 +83,6 @@ def calcular(screen):
                         else:
                             screen.set(str(result_screen.split('.')[0]))
             else:
-                screen.set('Syntax invalidate')
+                screen.set('Syntax error')
+    else:
+        screen.set('Syntax error')
