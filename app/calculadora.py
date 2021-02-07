@@ -12,7 +12,7 @@ def add_screen(bnt_press, screen):
 
 def remove(screen):
     if screen.get() != 'Error':
-        valor = screen.get()[0:-1]
+        valor = screen.get()[:-1]
         screen.set(valor)
 
 
