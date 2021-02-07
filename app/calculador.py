@@ -25,7 +25,7 @@ def calcular(screen):
                     screen.set(sqrt(int(square_root)))
                 else:
                     square_root = screen_tot.split('√')[1]
-                    screen_tot.set(sqrt(square_root))
+                    screen.set(sqrt(int(square_root)))
             else:
                 screen.set(eval(screen_tot))
         else:
