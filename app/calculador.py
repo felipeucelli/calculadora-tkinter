@@ -8,8 +8,7 @@ def calcular(screen):
         screen_tot = screen_tot.replace('^', '**')
     if 'x' in screen_tot:
         screen_tot = screen_tot.replace('x', '*')
-    if screen_tot[0] != '+' and screen_tot[0] != '*' and screen_tot[0] != '/' \
-            and screen_tot[0] != '^' and screen_tot[0] != '.':
+    if screen_tot[0].isnumeric() or screen_tot[0] == '√':
         for c in screen_tot:
             if not c.isalpha():
                 valid = True
@@ -26,8 +25,10 @@ def calcular(screen):
                 else:
                     square_root = screen_tot.split('√')[1]
                     screen.set(sqrt(int(square_root)))
-            else:
+            elif screen_tot[len(screen_tot) - 1].isnumeric():
                 screen.set(eval(screen_tot))
+            else:
+                screen.set('Error')
         else:
             screen.set('Error')
     else:
