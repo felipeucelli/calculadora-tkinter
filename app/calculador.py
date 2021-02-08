@@ -34,12 +34,6 @@ def valid_operation(screen_tot, screen, historic):
                 return True
             else:
                 return False
-        else:
-            screen.set('Error')
-            add_historic(historic + ' = Error')
-    else:
-        screen.set('Error')
-        add_historic(historic + ' = Error')
 
 
 def math_operation(screen):
