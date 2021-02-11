@@ -66,8 +66,16 @@ def math_operation(screen):
             elif screen_tot[len(screen_tot) - 1].isnumeric() and '√' not in screen_tot:
                 if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
                         or '**' in screen_tot:
-                    screen.set(eval(screen_tot))
-                    add_historic(historic + ' = ' + str(eval(screen_tot)))
+                    if '/' in screen_tot:
+                        if screen_tot.split('/')[1] == '0' and len(screen_tot.split('/')[1]) == 1:
+                            screen.set('Error')
+                            add_historic(historic + ' + Error')
+                        else:
+                            screen.set(eval(screen_tot))
+                            add_historic(historic + ' = ' + str(eval(screen_tot)))
+                    else:
+                        screen.set(eval(screen_tot))
+                        add_historic(historic + ' = ' + str(eval(screen_tot)))
             else:
                 screen.set('Error')
                 add_historic(historic + ' = Error')

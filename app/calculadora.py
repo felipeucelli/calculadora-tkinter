@@ -9,6 +9,8 @@ def add_screen(bnt_press, screen):
         valor = screen.get()
         valor += bnt_press
         screen.set(valor)
+    if len(value) > 17:
+        screen.set(screen.get()[:-1])
 
 
 def remove(screen):
