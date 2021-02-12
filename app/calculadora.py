@@ -4,17 +4,16 @@ from .historic import open_historic
 
 
 def add_screen(bnt_press, screen):
-    value = screen.get()
-    if value != 'Error':
-        valor = screen.get()
-        valor += bnt_press
-        screen.set(valor)
-    if len(value) > 17:
+    if screen.get() != 'Error' and 'e' not in screen.get():
+        value = screen.get()
+        value += bnt_press
+        screen.set(value)
+    if len(screen.get()) > 16:
         screen.set(screen.get()[:-1])
 
 
 def remove(screen):
-    if screen.get() != 'Error':
+    if screen.get() != 'Error' and 'e' not in screen.get():
         valor = screen.get()[:-1]
         screen.set(valor)
 

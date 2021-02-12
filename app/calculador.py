@@ -25,8 +25,6 @@ def valid_operation(screen_tot, screen, historic):
                             break
                     else:
                         validate_expression = False
-                        screen.set('Error')
-                        add_historic(historic + ' = Error')
                         break
                 else:
                     validate_expression = True
@@ -39,46 +37,54 @@ def valid_operation(screen_tot, screen, historic):
 def math_operation(screen):
     historic = screen.get()
     screen_tot = screen.get()
-    if screen_tot != '':
+    if screen_tot != '' and 'e' not in screen_tot:
         if ' ' in historic:
             historic = historic.replace(' ', '')
         if ' ' in screen_tot:
             screen_tot = screen_tot.replace(' ', '')
         if valid_operation(screen_tot, screen, historic):
+            screen_get_tot = ''
             if '^' in screen_tot:
                 screen_tot = screen_tot.replace('^', '**')
             if 'x' in screen_tot:
                 screen_tot = screen_tot.replace('x', '*')
-            if screen_tot[0] == '√' and screen_tot[1].isnumeric():
-                if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
-                        or '**' in screen_tot:
-                    square_root = eval(screen_tot.split('√')[1])
-                    if str(square_root)[0] != '-':
-                        screen.set(sqrt(float(square_root)))
-                        add_historic(historic + ' = ' + str(sqrt(float(square_root))))
+            if screen_tot[0] == '√':
+                if len(screen_tot) > 1:
+                    if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
+                            or '**' in screen_tot and screen_tot[1].isnumeric():
+                        square_root = eval(screen_tot.split('√')[1])
+                        if str(square_root)[0] != '-':
+                            screen_get_tot = sqrt(float(square_root))
+                        else:
+                            screen_get_tot = 'Error'
                     else:
-                        screen.set('Error')
-                        add_historic(historic + ' = Error')
+                        square_root = screen_tot.split('√')[1]
+                        screen_get_tot = sqrt(float(square_root))
                 else:
-                    square_root = screen_tot.split('√')[1]
-                    screen.set(sqrt(float(square_root)))
-                    add_historic(historic + ' = ' + str(sqrt(float(square_root))))
+                    screen_get_tot = 'Error'
             elif screen_tot[len(screen_tot) - 1].isnumeric() and '√' not in screen_tot:
                 if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
                         or '**' in screen_tot:
                     if '/' in screen_tot:
                         if screen_tot.split('/')[1] == '0' and len(screen_tot.split('/')[1]) == 1:
-                            screen.set('Error')
-                            add_historic(historic + ' + Error')
+                            screen_get_tot = 'Error'
                         else:
-                            screen.set(eval(screen_tot))
-                            add_historic(historic + ' = ' + str(eval(screen_tot)))
+                            screen_get_tot = eval(screen_tot)
                     else:
-                        screen.set(eval(screen_tot))
-                        add_historic(historic + ' = ' + str(eval(screen_tot)))
+                        screen_get_tot = eval(screen_tot)
             else:
-                screen.set('Error')
-                add_historic(historic + ' = Error')
+                screen_get_tot = 'Error'
         else:
-            screen.set('Error')
-            add_historic(historic + ' = Error')
+            screen_get_tot = 'Error'
+        if screen_get_tot == 'Error':
+            screen.set(screen_get_tot)
+            add_historic(str(historic) + ' = Error')
+        else:
+            if len(str(screen_get_tot)) > 15:
+                screen.set(str(screen_get_tot)[:15] + 'e')
+                add_historic(str(historic) + ' = ' + str(screen_get_tot))
+            else:
+                screen.set(str(screen_get_tot))
+                add_historic(str(historic) + ' = ' + str(screen_get_tot))
+
+
