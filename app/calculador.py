@@ -2,7 +2,7 @@ from math import sqrt
 from .historic import add_historic
 
 
-def valid_operation(screen_tot, screen, historic):
+def valid_operation(screen_tot):
     validate_symbols = False
     if screen_tot[0].isnumeric() or screen_tot[0] == '√' or screen_tot[0] == '-':
         for c in screen_tot:
@@ -42,7 +42,7 @@ def math_operation(screen):
             historic = historic.replace(' ', '')
         if ' ' in screen_tot:
             screen_tot = screen_tot.replace(' ', '')
-        if valid_operation(screen_tot, screen, historic):
+        if valid_operation(screen_tot):
             screen_get_tot = ''
             if '^' in screen_tot:
                 screen_tot = screen_tot.replace('^', '**')
@@ -86,5 +86,3 @@ def math_operation(screen):
             else:
                 screen.set(str(screen_get_tot))
                 add_historic(str(historic) + ' = ' + str(screen_get_tot))
-
-
