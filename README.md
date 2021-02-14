@@ -1,6 +1,10 @@
 # Calculadora-tk
  Projeto de uma calculadora em python usando a biblioteca tkinter
 
+## Objective
+
+Aprofundar meus conhecimentos com o tkinter e orientação a objeto, além de incentivar outros iniciantes
+
 ## Running the application
 Windows: `python main.py`
 
