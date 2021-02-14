@@ -3,94 +3,105 @@ from .calculador import math_operation
 from .historic import open_historic
 
 
-def add_screen(bnt_press, screen):
-    if screen.get() != 'Error' and 'e' not in screen.get():
-        value = screen.get()
-        value += bnt_press
-        screen.set(value)
-    if len(screen.get()) > 16:
-        screen.set(screen.get()[:-1])
+class Calculadora:
+    def __init__(self, root):
+        self.root = root
 
+        self._interface()
 
-def remove(screen):
-    if screen.get() != 'Error' and 'e' not in screen.get():
-        valor = screen.get()[:-1]
-        screen.set(valor)
+    def add_screen(self, bnt_press):
+        if self.screen.get() != 'Error' and 'e' not in self.screen.get():
+            value = self.screen.get()
+            value += bnt_press
+            self.screen.set(value)
+        if len(self.screen.get()) > 16:
+            self.screen.set(self.screen.get()[:-1])
 
+    def remove(self):
+        if self.screen.get() != 'Error' and 'e' not in self.screen.get():
+            valor = self.screen.get()[:-1]
+            self.screen.set(valor)
 
-def interface(root):
-    root.title('Calulcadora Tk')
-    root.resizable(width=False, height=False)
+    def _interface(self):
+        self.root.title('Calulcadora Tk')
+        self.root.resizable(width=False, height=False)
 
-    new_menu = tkinter.Menu(root)
-    option_menu = tkinter.Menu(new_menu, tearoff=0)
-    option_menu.add_command(label='Historic', command=lambda: open_historic(screen=screen))
-    option_menu.add_separator()
-    option_menu.add_command(label='Exit', command=lambda: sair(root))
-    new_menu.add_cascade(label='Options', menu=option_menu)
-    root.config(menu=new_menu)
+        self.new_menu = tkinter.Menu(self.root)
+        self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
+        self.option_menu.add_command(label='Historic', command=lambda: open_historic(screen=self.screen))
+        self.option_menu.add_separator()
+        self.option_menu.add_command(label='Exit', command=lambda: self.sair())
+        self.new_menu.add_cascade(label='Options', menu=self.option_menu)
+        self.root.config(menu=self.new_menu)
 
-    screen = tkinter.StringVar()
+        self.screen = tkinter.StringVar()
 
-    input_screen = tkinter.Entry(root, font='Arial 20', bd=2, relief='solid', justify='right',
-                                 width=18, textvariable=screen, exportselection=0)
+        self.input_screen = tkinter.Entry(self.root, font='Arial 20', bd=2, relief='solid', justify='right',
+                                          width=18, textvariable=self.screen, exportselection=0)
 
-    btn_square_root = tkinter.Button(root, font='Arial 20', width=4, text='√', command=lambda: add_screen('√', screen))
-    btn_exponent = tkinter.Button(root, font='Arial 20', width=4, text='x²', command=lambda: add_screen('^', screen))
-    btn_clear = tkinter.Button(root, font='Arial 20', width=4, text='C', command=lambda: screen.set(''))
-    btn_delete = tkinter.Button(root, font='Arial 20', width=4, text='<-', command=lambda: remove(screen))
+        self.btn_square_root = tkinter.Button(self.root, font='Arial 20', width=4, text='√',
+                                              command=lambda: self.add_screen('√'))
+        self.btn_exponent = tkinter.Button(self.root, font='Arial 20', width=4, text='x²',
+                                           command=lambda: self.add_screen('^'))
+        self.btn_clear = tkinter.Button(self.root, font='Arial 20', width=4, text='C',
+                                        command=lambda: self.screen.set(''))
+        self.btn_delete = tkinter.Button(self.root, font='Arial 20', width=4, text='<-', command=lambda: self.remove())
 
-    btn_9 = tkinter.Button(root, font='Arial 20', width=4, text=9, command=lambda: add_screen('9', screen))
-    btn_8 = tkinter.Button(root, font='Arial 20', width=4, text=8, command=lambda: add_screen('8', screen))
-    btn_7 = tkinter.Button(root, font='Arial 20', width=4, text=7, command=lambda: add_screen('7', screen))
-    btn_division = tkinter.Button(root, font='Arial 20', width=4, text='/', command=lambda: add_screen('/', screen))
+        self.btn_9 = tkinter.Button(self.root, font='Arial 20', width=4, text=9, command=lambda: self.add_screen('9'))
+        self.btn_8 = tkinter.Button(self.root, font='Arial 20', width=4, text=8, command=lambda: self.add_screen('8'))
+        self.btn_7 = tkinter.Button(self.root, font='Arial 20', width=4, text=7, command=lambda: self.add_screen('7'))
+        self.btn_division = tkinter.Button(self.root, font='Arial 20', width=4, text='/',
+                                           command=lambda: self.add_screen('/'))
 
-    btn_6 = tkinter.Button(root, font='Arial 20', width=4, text=6, command=lambda: add_screen('6', screen))
-    btn_5 = tkinter.Button(root, font='Arial 20', width=4, text=5, command=lambda: add_screen('5', screen))
-    btn_4 = tkinter.Button(root, font='Arial 20', width=4, text=4, command=lambda: add_screen('4', screen))
-    btn_times = tkinter.Button(root, font='Arial 20', width=4, text='X', command=lambda: add_screen('x', screen))
+        self.btn_6 = tkinter.Button(self.root, font='Arial 20', width=4, text=6, command=lambda: self.add_screen('6'))
+        self.btn_5 = tkinter.Button(self.root, font='Arial 20', width=4, text=5, command=lambda: self.add_screen('5'))
+        self.btn_4 = tkinter.Button(self.root, font='Arial 20', width=4, text=4, command=lambda: self.add_screen('4'))
+        self.btn_times = tkinter.Button(self.root, font='Arial 20', width=4, text='X',
+                                        command=lambda: self.add_screen('x'))
 
-    btn_3 = tkinter.Button(root, font='Arial 20', width=4, text=3, command=lambda: add_screen('3', screen))
-    btn_2 = tkinter.Button(root, font='Arial 20', width=4, text=2, command=lambda: add_screen('2', screen))
-    btn_1 = tkinter.Button(root, font='Arial 20', width=4, text=1, command=lambda: add_screen('1', screen))
-    btn_minus = tkinter.Button(root, font='Arial 20', width=4, text='-', command=lambda: add_screen('-', screen))
+        self.btn_3 = tkinter.Button(self.root, font='Arial 20', width=4, text=3, command=lambda: self.add_screen('3'))
+        self.btn_2 = tkinter.Button(self.root, font='Arial 20', width=4, text=2, command=lambda: self.add_screen('2'))
+        self.btn_1 = tkinter.Button(self.root, font='Arial 20', width=4, text=1, command=lambda: self.add_screen('1'))
+        self.btn_minus = tkinter.Button(self.root, font='Arial 20', width=4, text='-',
+                                        command=lambda: self.add_screen('-'))
 
-    btn_dot = tkinter.Button(root, font='Arial 20', width=4, text='.', command=lambda: add_screen('.', screen))
-    btn_0 = tkinter.Button(root, font='Arial 20', width=4, text=0, command=lambda: add_screen('0', screen))
-    btn_equal = tkinter.Button(root, font='Arial 20', width=4, text='=', command=lambda: math_operation(screen))
-    btn_plus = tkinter.Button(root, font='Arial 20', width=4, text='+', command=lambda: add_screen('+', screen))
+        self.btn_dot = tkinter.Button(self.root, font='Arial 20', width=4, text='.',
+                                      command=lambda: self.add_screen('.'))
+        self.btn_0 = tkinter.Button(self.root, font='Arial 20', width=4, text=0, command=lambda: self.add_screen('0'))
+        self.btn_equal = tkinter.Button(self.root, font='Arial 20', width=4, text='=',
+                                        command=lambda: math_operation(self.screen))
+        self.btn_plus = tkinter.Button(self.root, font='Arial 20', width=4, text='+',
+                                       command=lambda: self.add_screen('+'))
 
-    input_screen.grid(row=0, columnspan=4, sticky='we')
+        self.input_screen.grid(row=0, columnspan=4, sticky='we')
 
-    btn_square_root.grid(row=1, column=0)
-    btn_exponent.grid(row=1, column=1)
-    btn_clear.grid(row=1, column=2)
-    btn_delete.grid(row=1, column=3)
+        self.btn_square_root.grid(row=1, column=0)
+        self.btn_exponent.grid(row=1, column=1)
+        self.btn_clear.grid(row=1, column=2)
+        self.btn_delete.grid(row=1, column=3)
 
-    btn_9.grid(row=2, column=2)
-    btn_8.grid(row=2, column=1)
-    btn_7.grid(row=2, column=0)
-    btn_division.grid(row=2, column=3)
+        self.btn_9.grid(row=2, column=2)
+        self.btn_8.grid(row=2, column=1)
+        self.btn_7.grid(row=2, column=0)
+        self.btn_division.grid(row=2, column=3)
 
-    btn_6.grid(row=3, column=2)
-    btn_5.grid(row=3, column=1)
-    btn_4.grid(row=3, column=0)
-    btn_times.grid(row=3, column=3)
+        self.btn_6.grid(row=3, column=2)
+        self.btn_5.grid(row=3, column=1)
+        self.btn_4.grid(row=3, column=0)
+        self.btn_times.grid(row=3, column=3)
 
-    btn_3.grid(row=4, column=2)
-    btn_2.grid(row=4, column=1)
-    btn_1.grid(row=4, column=0)
-    btn_minus.grid(row=4, column=3)
+        self.btn_3.grid(row=4, column=2)
+        self.btn_2.grid(row=4, column=1)
+        self.btn_1.grid(row=4, column=0)
+        self.btn_minus.grid(row=4, column=3)
 
-    btn_dot.grid(row=5, column=0)
-    btn_0.grid(row=5, column=1)
-    btn_equal.grid(row=5, column=2)
-    btn_plus.grid(row=5, column=3)
+        self.btn_dot.grid(row=5, column=0)
+        self.btn_0.grid(row=5, column=1)
+        self.btn_equal.grid(row=5, column=2)
+        self.btn_plus.grid(row=5, column=3)
 
+    def sair(self):
+        self.root.destroy()
 
-def sair(root):
-    root.destroy()
-
-
-def start(root):
-    root.mainloop()
+    def start(self):
+        self.root.mainloop()

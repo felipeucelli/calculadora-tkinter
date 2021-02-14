@@ -1,7 +1,7 @@
 from tkinter import Tk
-from app.calculadora import start, interface
+from app.calculadora import Calculadora
 
 if __name__ == '__main__':
     main = Tk()
-    interface(main)
-    start(main)
+    root = Calculadora(main)
+    root.start()
