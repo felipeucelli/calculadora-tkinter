@@ -6,7 +6,7 @@ from .historic import open_historic
 class Calculadora:
     def __init__(self, root):
         self.root = root
-        self.root.title('Calulcadora Tk')
+        self.root.title('Calculadora Tk')
         self.root.resizable(width=False, height=False)
 
         self._interface()
@@ -25,6 +25,20 @@ class Calculadora:
             valor = self.screen.get()[:-1]
             self.screen.set(valor)
 
+    def input_control(self, *args):
+        _none = args
+        _none = None
+        value = self.screen.get()
+        if len(value) > 0:
+            for k, v in enumerate(value):
+                if not v.isalpha() or v == 'x':
+                    self.screen.set(value)
+                else:
+                    value = value.replace(v, '')
+                    self.screen.set(value)
+        if len(value) > 15:
+            self.screen.set(value[:-1])
+
     def _create_menu(self):
         self.new_menu = tkinter.Menu(self.root)
         self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
@@ -36,6 +50,7 @@ class Calculadora:
 
     def _interface(self):
         self.screen = tkinter.StringVar()
+        self.screen.trace('w', self.input_control)
 
         self.input_screen = tkinter.Entry(self.root, font='Arial 20', bd=2, relief='solid', justify='right',
                                           width=18, textvariable=self.screen, exportselection=0)
