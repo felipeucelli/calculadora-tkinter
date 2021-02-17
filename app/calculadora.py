@@ -29,7 +29,7 @@ class Calculadora:
         _none = args
         _none = None
         value = self.screen.get()
-        if len(value) > 0:
+        if len(value) > 0 and value != 'Error' and 'e' not in value:
             for k, v in enumerate(value):
                 if not v.isalpha() or v == 'x':
                     self.screen.set(value)
@@ -60,6 +60,11 @@ class Calculadora:
         self.btn_clear = tkinter.Button(self.root, font='Arial 20', width=4, text='C')
         self.btn_delete = tkinter.Button(self.root, font='Arial 20', width=4, text='<-')
 
+        self.btn_factorial = tkinter.Button(self.root, font='Arial 20', width=4, text='!')
+        self.btn_open_parentheses = tkinter.Button(self.root, font='Arial 20', width=4, text='(')
+        self.btn_close_parentheses = tkinter.Button(self.root, font='Arial 20', width=4, text=')')
+        self.btn_percentage = tkinter.Button(self.root, font='Arial 20', width=4, text='%')
+
         self.btn_9 = tkinter.Button(self.root, font='Arial 20', width=4, text=9)
         self.btn_8 = tkinter.Button(self.root, font='Arial 20', width=4, text=8)
         self.btn_7 = tkinter.Button(self.root, font='Arial 20', width=4, text=7)
@@ -79,6 +84,11 @@ class Calculadora:
         self.btn_0 = tkinter.Button(self.root, font='Arial 20', width=4, text=0)
         self.btn_equal = tkinter.Button(self.root, font='Arial 20', width=4, text='=')
         self.btn_plus = tkinter.Button(self.root, font='Arial 20', width=4, text='+')
+
+        self.btn_factorial['command'] = lambda: self.add_screen('!')
+        self.btn_open_parentheses['command'] = lambda: self.add_screen('(')
+        self.btn_close_parentheses['command'] = lambda: self.add_screen(')')
+        self.btn_percentage['command'] = lambda: self.add_screen('%')
 
         self.btn_square_root['command'] = lambda: self.add_screen('√')
         self.btn_exponent['command'] = lambda: self.add_screen('^')
@@ -112,25 +122,30 @@ class Calculadora:
         self.btn_clear.grid(row=1, column=2)
         self.btn_delete.grid(row=1, column=3)
 
-        self.btn_9.grid(row=2, column=2)
-        self.btn_8.grid(row=2, column=1)
-        self.btn_7.grid(row=2, column=0)
-        self.btn_division.grid(row=2, column=3)
+        self.btn_factorial.grid(row=2, column=0)
+        self.btn_open_parentheses.grid(row=2, column=1)
+        self.btn_close_parentheses.grid(row=2, column=2)
+        self.btn_percentage.grid(row=2, column=3)
 
-        self.btn_6.grid(row=3, column=2)
-        self.btn_5.grid(row=3, column=1)
-        self.btn_4.grid(row=3, column=0)
-        self.btn_times.grid(row=3, column=3)
+        self.btn_9.grid(row=3, column=2)
+        self.btn_8.grid(row=3, column=1)
+        self.btn_7.grid(row=3, column=0)
+        self.btn_division.grid(row=3, column=3)
 
-        self.btn_3.grid(row=4, column=2)
-        self.btn_2.grid(row=4, column=1)
-        self.btn_1.grid(row=4, column=0)
-        self.btn_minus.grid(row=4, column=3)
+        self.btn_6.grid(row=4, column=2)
+        self.btn_5.grid(row=4, column=1)
+        self.btn_4.grid(row=4, column=0)
+        self.btn_times.grid(row=4, column=3)
 
-        self.btn_dot.grid(row=5, column=0)
-        self.btn_0.grid(row=5, column=1)
-        self.btn_equal.grid(row=5, column=2)
-        self.btn_plus.grid(row=5, column=3)
+        self.btn_3.grid(row=5, column=2)
+        self.btn_2.grid(row=5, column=1)
+        self.btn_1.grid(row=5, column=0)
+        self.btn_minus.grid(row=5, column=3)
+
+        self.btn_dot.grid(row=6, column=0)
+        self.btn_0.grid(row=6, column=1)
+        self.btn_equal.grid(row=6, column=2)
+        self.btn_plus.grid(row=6, column=3)
 
     def sair(self):
         self.root.destroy()
