@@ -9,6 +9,8 @@ class Calculadora:
         self.root.title('Calculadora Tk')
         self.root.resizable(width=False, height=False)
 
+        self.screen = tkinter.StringVar()
+
         self._interface()
         self._create_menu()
 
@@ -29,14 +31,19 @@ class Calculadora:
         _none = args
         _none = None
         value = self.screen.get()
-        if len(value) > 0 and value != 'Error' and 'e' not in value:
+        if len(value) > 0 and 'E' not in value and 'ror' not in value:
             for k, v in enumerate(value):
                 if not v.isalpha() or v == 'x':
                     self.screen.set(value)
-                else:
+                elif v != 'e':
                     value = value.replace(v, '')
                     self.screen.set(value)
-        if len(value) > 15:
+                elif v == 'e' and len(value) < 15:
+                    value = value.replace(v, '')
+                    self.screen.set(value)
+        elif 'E' in value or 'ror' in value:
+            self.screen.set('Error')
+        if len(value) > 15 and value[len(value) - 1] != 'e':
             self.screen.set(value[:-1])
 
     def _create_menu(self):
@@ -49,11 +56,11 @@ class Calculadora:
         self.root.config(menu=self.new_menu)
 
     def _interface(self):
-        self.screen = tkinter.StringVar()
         self.screen.trace('w', self.input_control)
 
-        self.input_screen = tkinter.Entry(self.root, font='Arial 20', bd=2, relief='solid', justify='right',
+        self.input_screen = tkinter.Entry(self.root, font='Arial 20', bd=1, relief='solid', justify='right',
                                           width=18, textvariable=self.screen, exportselection=0)
+        self.input_screen.focus()
 
         self.btn_square_root = tkinter.Button(self.root, font='Arial 20', width=4, text='√')
         self.btn_exponent = tkinter.Button(self.root, font='Arial 20', width=4, text='x²')
