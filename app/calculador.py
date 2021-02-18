@@ -8,11 +8,14 @@ def validate_characters(screen_tot):
             and '^^' not in screen_tot and '!!' not in screen_tot and '%%' not in screen_tot:
         validate_expression = False
         for k, v in enumerate(screen_tot):
-            if not v.isnumeric() and screen_tot[0] != '√' and screen_tot[len(screen_tot) - 1] != '!':
+            if not v.isnumeric() and screen_tot[0] != '√' and screen_tot[len(screen_tot) - 1] != '!' or v == '(' or \
+                    v == ')':
                 if screen_tot[len(screen_tot) - 1].isnumeric() or screen_tot[len(screen_tot) - 1] == ')' or \
-                        screen_tot[len(screen_tot) - 1] == '%':
+                        screen_tot[len(screen_tot) - 1] == '%' or screen_tot[len(screen_tot) - 1] == '!':
                     if len(screen_tot) > k + 1:
                         if screen_tot[k + 1].isnumeric() or screen_tot[k + 1] == '-' or screen_tot[k + 1] == '(':
+                            validate_expression = True
+                        elif v == ')':
                             validate_expression = True
                         else:
                             validate_expression = False
@@ -59,6 +62,24 @@ def valid_operation(screen_tot):
             return False
 
 
+def calculate_factorial(screen_tot):
+    factorial_ok = True
+    if '.' in screen_tot:
+        for v in screen_tot.split('.')[1]:
+            if v != '0' and v != '!':
+                factorial_ok = False
+                break
+            else:
+                factorial_ok = True
+    else:
+        factorial_ok = True
+    if factorial_ok:
+        fact = eval(screen_tot.split('!')[0])
+        return factorial(fact)
+    else:
+        return 'Error'
+
+
 def calculate_percentage(screen_tot):
     percentage_include = ''
     for k, v in enumerate(screen_tot):
@@ -93,23 +114,34 @@ def math_operation(screen):
                     if len(screen_tot) > k + 1:
                         if screen_tot[k].isnumeric() and screen_tot[k + 1] == '(':
                             screen_tot = screen_tot.replace('(', '*(')
+            if ')' in screen_tot:
+                for k, v in enumerate(screen_tot):
+                    if len(screen_tot) > k + 1:
+                        if screen_tot[k] == ')' and screen_tot[k + 1].isnumeric() and \
+                                screen_tot[len(screen_tot) - 1] != ')':
+                            screen_tot = screen_tot.replace(')', ')*')
             if screen_tot[0] == '√':
                 if len(screen_tot) > 1:
                     if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
-                            or '**' in screen_tot and screen_tot[1].isnumeric():
-                        square_root = eval(screen_tot.split('√')[1])
-                        if str(square_root)[0] != '-':
-                            screen_get_tot = sqrt(float(square_root))
+                            or '**' in screen_tot or '!' in screen_tot and screen_tot[1].isnumeric():
+                        if '!' in screen_tot:
+                            if screen_tot[len(screen_tot) - 1] == '!':
+                                screen_get_tot = sqrt(float(calculate_factorial(screen_tot.split('√')[1])))
+                            else:
+                                screen_get_tot = 'Error'
                         else:
-                            screen_get_tot = 'Error'
+                            square_root = eval(screen_tot.split('√')[1])
+                            if str(square_root)[0] != '-':
+                                screen_get_tot = sqrt(float(square_root))
+                            else:
+                                screen_get_tot = 'Error'
                     else:
                         square_root = screen_tot.split('√')[1]
                         screen_get_tot = sqrt(float(square_root))
                 else:
                     screen_get_tot = 'Error'
             elif screen_tot[len(screen_tot) - 1] == '!':
-                fact = eval(screen_tot.split('!')[0])
-                screen_get_tot = factorial(fact)
+                screen_get_tot = calculate_factorial(screen_tot)
             elif screen_tot[len(screen_tot) - 1].isnumeric() and '√' not in screen_tot or \
                     screen_tot[len(screen_tot) - 1] == ')':
                 if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
