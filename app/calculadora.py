@@ -36,7 +36,7 @@ class Calculadora:
         _none = args
         _none = None
         if len(self.screen.get()) > 0 and 'E' not in self.screen.get() and 'ror' not in self.screen.get():
-            for k, v in enumerate(self.screen.get()):
+            for v in self.screen.get():
                 if 'e' not in self.screen.get():
                     if not v.isalpha() or v == 'x':
                         self.screen.set(self.screen.get())

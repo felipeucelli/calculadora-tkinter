@@ -82,7 +82,7 @@ def calculate_factorial(screen_tot):
 
 def calculate_percentage(screen_tot):
     percentage_include = ''
-    for k, v in enumerate(screen_tot):
+    for v in screen_tot:
         if v.isnumeric() or v == '%' or v == '.':
             percentage_include += v
         else:
@@ -110,12 +110,12 @@ def math_operation(screen, control):
             if 'x' in screen_tot:
                 screen_tot = screen_tot.replace('x', '*')
             if '(' in screen_tot:
-                for k, v in enumerate(screen_tot):
+                for k, _ in enumerate(screen_tot):
                     if len(screen_tot) > k + 1:
                         if screen_tot[k].isnumeric() and screen_tot[k + 1] == '(':
                             screen_tot = screen_tot.replace('(', '*(')
             if ')' in screen_tot:
-                for k, v in enumerate(screen_tot):
+                for k, _ in enumerate(screen_tot):
                     if len(screen_tot) > k + 1:
                         if screen_tot[k] == ')' and screen_tot[k + 1].isnumeric() and \
                                 screen_tot[len(screen_tot) - 1] != ')':
