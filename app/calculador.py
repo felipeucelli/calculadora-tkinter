@@ -83,7 +83,7 @@ def calculate_factorial(screen_tot):
 def calculate_percentage(screen_tot):
     percentage_include = ''
     for k, v in enumerate(screen_tot):
-        if v.isnumeric() or v == '%':
+        if v.isnumeric() or v == '%' or v == '.':
             percentage_include += v
         else:
             percentage_include = ''
@@ -95,10 +95,10 @@ def calculate_percentage(screen_tot):
     return eval(first_value + str(percentage_tot))
 
 
-def math_operation(screen):
+def math_operation(screen, control):
     historic = screen.get()
     screen_tot = screen.get()
-    if screen_tot != '' and 'e' not in screen_tot:
+    if screen_tot != '' and 'e' not in screen_tot and not screen_tot.isnumeric():
         if ' ' in historic:
             historic = historic.replace(' ', '')
         if ' ' in screen_tot:
@@ -127,6 +127,11 @@ def math_operation(screen):
                         if '!' in screen_tot:
                             if screen_tot[len(screen_tot) - 1] == '!':
                                 screen_get_tot = sqrt(float(calculate_factorial(screen_tot.split('√')[1])))
+                            else:
+                                screen_get_tot = 'Error'
+                        elif '%' in screen_tot:
+                            if screen_tot[len(screen_tot) - 1] == '%':
+                                screen_get_tot = sqrt(float(calculate_percentage(screen_tot.split('√')[1])))
                             else:
                                 screen_get_tot = 'Error'
                         else:
@@ -165,7 +170,8 @@ def math_operation(screen):
             add_historic(str(historic) + ' = Error')
         else:
             if len(str(screen_get_tot)) > 15:
-                screen.set(str(screen_get_tot)[:15] + 'e')
+                screen.set(str(screen_get_tot)[0:15] + 'e')
+                control.set(str(screen_get_tot)[0:15] + 'e')
                 add_historic(str(historic) + ' = ' + str(screen_get_tot))
             else:
                 screen.set(str(screen_get_tot))

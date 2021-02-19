@@ -10,6 +10,7 @@ class Calculadora:
         self.root.resizable(width=False, height=False)
 
         self.screen = tkinter.StringVar()
+        self.control = tkinter.StringVar()
 
         self._interface()
         self._create_menu()
@@ -27,24 +28,28 @@ class Calculadora:
             valor = self.screen.get()[:-1]
             self.screen.set(valor)
 
+    def clear(self):
+        self.screen.set('')
+        self.control.set('')
+
     def input_control(self, *args):
         _none = args
         _none = None
-        value = self.screen.get()
-        if len(value) > 0 and 'E' not in value and 'ror' not in value:
-            for k, v in enumerate(value):
-                if not v.isalpha() or v == 'x':
-                    self.screen.set(value)
-                elif v != 'e':
-                    value = value.replace(v, '')
-                    self.screen.set(value)
-                elif v == 'e' and len(value) < 15:
-                    value = value.replace(v, '')
-                    self.screen.set(value)
-        elif 'E' in value or 'ror' in value:
+        if len(self.screen.get()) > 0 and 'E' not in self.screen.get() and 'ror' not in self.screen.get():
+            for k, v in enumerate(self.screen.get()):
+                if 'e' not in self.screen.get():
+                    if not v.isalpha() or v == 'x':
+                        self.screen.set(self.screen.get())
+                    else:
+                        value = self.screen.get().replace(v, '')
+                        self.screen.set(value)
+                else:
+                    if self.screen.get() != self.control.get():
+                        self.screen.set(self.control.get())
+        elif 'E' in self.screen.get() or 'ror' in self.screen.get():
             self.screen.set('Error')
-        if len(value) > 15 and value[len(value) - 1] != 'e':
-            self.screen.set(value[:-1])
+        if len(self.screen.get()) > 15 and self.screen.get()[len(self.screen.get()) - 1] != 'e':
+            self.screen.set(self.screen.get()[:-1])
 
     def _create_menu(self):
         self.new_menu = tkinter.Menu(self.root)
@@ -99,7 +104,7 @@ class Calculadora:
 
         self.btn_square_root['command'] = lambda: self.add_screen('√')
         self.btn_exponent['command'] = lambda: self.add_screen('^')
-        self.btn_clear['command'] = lambda: self.screen.set('')
+        self.btn_clear['command'] = lambda: self.clear()
         self.btn_delete['command'] = lambda: self.remove()
 
         self.btn_9['command'] = lambda: self.add_screen('9')
@@ -119,7 +124,7 @@ class Calculadora:
 
         self.btn_dot['command'] = lambda: self.add_screen('.')
         self.btn_0['command'] = lambda: self.add_screen('0')
-        self.btn_equal['command'] = lambda: math_operation(self.screen)
+        self.btn_equal['command'] = lambda: math_operation(self.screen, self.control)
         self.btn_plus['command'] = lambda: self.add_screen('+')
 
         self.input_screen.grid(row=0, columnspan=4, sticky='we')
