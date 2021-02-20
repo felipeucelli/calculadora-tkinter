@@ -1,5 +1,5 @@
 import tkinter
-from .calculador import math_operation
+from .calculador import Calculador
 from .historic import open_historic
 
 
@@ -11,6 +11,7 @@ class Calculadora:
 
         self.screen = tkinter.StringVar()
         self.control = tkinter.StringVar()
+        self.calculate = Calculador(self.screen, self.control)
 
         self._interface()
         self._create_menu()
@@ -121,7 +122,7 @@ class Calculadora:
 
         self.btn_dot['command'] = lambda: self.add_screen('.')
         self.btn_0['command'] = lambda: self.add_screen('0')
-        self.btn_equal['command'] = lambda: math_operation(self.screen, self.control)
+        self.btn_equal['command'] = lambda: self.calculate.math_operation()
         self.btn_plus['command'] = lambda: self.add_screen('+')
 
         self.input_screen.grid(row=0, columnspan=4, sticky='we')
