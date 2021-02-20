@@ -29,27 +29,24 @@ class Calculadora:
             self.screen.set(valor)
 
     def clear(self):
-        self.screen.set('')
         self.control.set('')
+        self.screen.set('')
 
     def input_control(self, *args):
         _none = args
         _none = None
+        if self.control.get() != '':
+            if self.screen.get() != self.control.get():
+                self.screen.set(self.control.get())
         if len(self.screen.get()) > 0 and 'E' not in self.screen.get() and 'ror' not in self.screen.get():
             for v in self.screen.get():
                 if 'e' not in self.screen.get():
                     if not v.isalpha() or v == 'x':
                         self.screen.set(self.screen.get())
                     else:
-                        value = self.screen.get().replace(v, '')
-                        self.screen.set(value)
-                else:
-                    if self.screen.get() != self.control.get():
-                        self.screen.set(self.control.get())
+                        self.screen.set(self.screen.get().replace(v, ''))
         elif 'E' in self.screen.get() or 'ror' in self.screen.get():
             self.screen.set('Error')
-        if len(self.screen.get()) > 15 and self.screen.get()[len(self.screen.get()) - 1] != 'e':
-            self.screen.set(self.screen.get()[:-1])
 
     def _create_menu(self):
         self.new_menu = tkinter.Menu(self.root)
