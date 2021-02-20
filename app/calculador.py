@@ -122,27 +122,30 @@ def math_operation(screen, control):
                             screen_tot = screen_tot.replace(')', ')*')
             if screen_tot[0] == '√':
                 if len(screen_tot) > 1:
-                    if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
-                            or '**' in screen_tot or '!' in screen_tot and screen_tot[1].isnumeric():
-                        if '!' in screen_tot:
-                            if screen_tot[len(screen_tot) - 1] == '!':
-                                screen_get_tot = sqrt(float(calculate_factorial(screen_tot.split('√')[1])))
+                    if screen_tot.count('√') == 1:
+                        if '+' in screen_tot or '-' in screen_tot or '*' in screen_tot or '/' in screen_tot \
+                                or '**' in screen_tot or '!' in screen_tot and screen_tot[1].isnumeric():
+                            if '!' in screen_tot:
+                                if screen_tot[len(screen_tot) - 1] == '!':
+                                    screen_get_tot = sqrt(float(calculate_factorial(screen_tot.split('√')[1])))
+                                else:
+                                    screen_get_tot = 'Error'
+                            elif '%' in screen_tot:
+                                if screen_tot[len(screen_tot) - 1] == '%':
+                                    screen_get_tot = sqrt(float(calculate_percentage(screen_tot.split('√')[1])))
+                                else:
+                                    screen_get_tot = 'Error'
                             else:
-                                screen_get_tot = 'Error'
-                        elif '%' in screen_tot:
-                            if screen_tot[len(screen_tot) - 1] == '%':
-                                screen_get_tot = sqrt(float(calculate_percentage(screen_tot.split('√')[1])))
-                            else:
-                                screen_get_tot = 'Error'
+                                square_root = eval(screen_tot.split('√')[1])
+                                if str(square_root)[0] != '-':
+                                    screen_get_tot = sqrt(float(square_root))
+                                else:
+                                    screen_get_tot = 'Error'
                         else:
-                            square_root = eval(screen_tot.split('√')[1])
-                            if str(square_root)[0] != '-':
-                                screen_get_tot = sqrt(float(square_root))
-                            else:
-                                screen_get_tot = 'Error'
+                            square_root = screen_tot.split('√')[1]
+                            screen_get_tot = sqrt(float(square_root))
                     else:
-                        square_root = screen_tot.split('√')[1]
-                        screen_get_tot = sqrt(float(square_root))
+                        screen_get_tot = 'Error'
                 else:
                     screen_get_tot = 'Error'
             elif screen_tot[len(screen_tot) - 1] == '!':
