@@ -1,41 +1,44 @@
 import tkinter
 
-
-def add_historic(historic):
-    global historic_screen
-    historic_screen.append(historic)
+historic_screen = ['HISTORIC']
 
 
-def show_historic(text, screen, window):
-    if text.get('active') != 'HISTORIC:':
-        screen.set((text.get('active')).split(' =')[0])
-        window.destroy()
+class Historic:
+    def __init__(self):
+        global historic_screen
+        self.historic_screen = historic_screen
 
+    def add_historic(self, historic):
+        self.historic_screen.append(historic)
 
-def open_historic(screen):
-    window = tkinter.Toplevel()
-    window.geometry('300x290')
-    window.resizable(width=False, height=False)
+    @staticmethod
+    def show_historic(text, screen, window):
+        if text.get('active') != 'HISTORIC:':
+            screen.set((text.get('active')).split(' =')[0])
+            window.destroy()
 
-    scrollbar_y = tkinter.Scrollbar(window, orient='vertical')
-    scrollbar_y.pack(side="right", fill="y")
+    def open_historic(self, screen):
+        window = tkinter.Toplevel()
+        window.geometry('300x290')
+        window.resizable(width=False, height=False)
 
-    scrollbar_x = tkinter.Scrollbar(window, orient='horizontal')
-    scrollbar_x.pack(side="bottom", fill="x")
+        scrollbar_y = tkinter.Scrollbar(window, orient='vertical')
+        scrollbar_y.pack(side="right", fill="y")
 
-    text = tkinter.Listbox(window, yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set,
-                           font='Arial 15', width=300, justify='center')
+        scrollbar_x = tkinter.Scrollbar(window, orient='horizontal')
+        scrollbar_x.pack(side="bottom", fill="x")
 
-    global historic_screen
-    for item in historic_screen:
-        text.insert("end", item)
+        text = tkinter.Listbox(window, yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set,
+                               font='Arial 15', width=300, justify='center')
 
-    text.pack(fill="y")
+        for item in self.historic_screen:
+            text.insert("end", item)
 
-    scrollbar_y.config(command=text.yview)
-    scrollbar_x.config(command=text.xview)
+        text.pack(fill="y")
 
-    tkinter.Button(window, font='Arial 15', text='RETURN', command=lambda: show_historic(text, screen, window)).pack()
+        scrollbar_y.config(command=text.yview)
+        scrollbar_x.config(command=text.xview)
 
-
-historic_screen = ['HISTORIC:']
+        btn_show_historic = tkinter.Button(window, font='Arial 15', text='RETURN')
+        btn_show_historic['command'] = lambda: self.show_historic(text, screen, window)
+        btn_show_historic.pack()

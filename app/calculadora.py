@@ -1,6 +1,6 @@
 import tkinter
 from .calculador import Calculador
-from .historic import open_historic
+from .historic import Historic
 
 
 class Calculadora:
@@ -12,6 +12,7 @@ class Calculadora:
         self.screen = tkinter.StringVar()
         self.control = tkinter.StringVar()
         self.calculate = Calculador(self.screen, self.control)
+        self.historic = Historic()
 
         self._interface()
         self._create_menu()
@@ -52,7 +53,7 @@ class Calculadora:
     def _create_menu(self):
         self.new_menu = tkinter.Menu(self.root)
         self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
-        self.option_menu.add_command(label='Historic', command=lambda: open_historic(screen=self.screen))
+        self.option_menu.add_command(label='Historic', command=lambda: self.historic.open_historic(screen=self.screen))
         self.option_menu.add_separator()
         self.option_menu.add_command(label='Exit', command=lambda: self.sair())
         self.new_menu.add_cascade(label='Options', menu=self.option_menu)

@@ -1,11 +1,12 @@
 from math import sqrt, factorial
-from .historic import add_historic
+from .historic import Historic
 
 
 class Calculador:
     def __init__(self, screen, control):
         self.screen = screen
         self.control = control
+        self.historic = Historic()
 
     def duplicate_analysis(self):
         analysis = True
@@ -194,12 +195,12 @@ class Calculador:
 
             if screen_get_tot == 'Error':
                 self.screen.set(screen_get_tot)
-                add_historic(str(historic) + ' = Error')
+                self.historic.add_historic(str(historic) + ' = Error')
             else:
                 if len(str(screen_get_tot)) > 15:
                     self.screen.set(str(screen_get_tot)[0:15] + 'e')
                     self.control.set(str(screen_get_tot)[0:15] + 'e')
-                    add_historic(str(historic) + ' = ' + str(screen_get_tot))
+                    self.historic.add_historic(str(historic) + ' = ' + str(screen_get_tot))
                 else:
                     self.screen.set(str(screen_get_tot))
-                    add_historic(str(historic) + ' = ' + str(screen_get_tot))
+                    self.historic.add_historic(str(historic) + ' = ' + str(screen_get_tot))
