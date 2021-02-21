@@ -112,15 +112,18 @@ class Calculador:
     @staticmethod
     def calculate_factorial(screen):
         factorial_ok = True
-        if '.' in screen:
-            for v in screen.split('.')[1]:
-                if v != '0' and v != '!':
-                    factorial_ok = False
-                    break
-                else:
-                    factorial_ok = True
+        if screen[len(screen) - 1] == '!':
+            if '.' in screen:
+                for v in screen.split('.')[1]:
+                    if v != '0' and v != '!':
+                        factorial_ok = False
+                        break
+                    else:
+                        factorial_ok = True
+            else:
+                factorial_ok = True
         else:
-            factorial_ok = True
+            factorial_ok = False
         if factorial_ok:
             fact = eval(screen.split('!')[0])
             return factorial(fact)
@@ -177,7 +180,7 @@ class Calculador:
                 self.convert_symbols()
                 if self.screen.get()[0] == '√':
                     screen_get_tot = self.calculate_square_root()
-                elif self.screen.get()[len(self.screen.get()) - 1] == '!':
+                elif '!' in self.screen.get():
                     screen_get_tot = self.calculate_factorial(self.screen.get())
                 elif self.screen.get()[len(self.screen.get()) - 1].isnumeric() or \
                         self.screen.get()[len(self.screen.get()) - 1] == ')' and '√' not in self.screen.get():
