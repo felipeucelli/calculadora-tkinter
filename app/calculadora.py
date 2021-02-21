@@ -47,6 +47,8 @@ class Calculadora:
                         self.screen.set(self.screen.get())
                     else:
                         self.screen.set(self.screen.get().replace(v, ''))
+                if v == 'e' and self.control.get() == '':
+                    self.screen.set(self.screen.get().replace(v, ''))
         elif 'E' in self.screen.get() or 'ror' in self.screen.get():
             self.screen.set('Error')
 
@@ -62,39 +64,39 @@ class Calculadora:
     def _interface(self):
         self.screen.trace('w', self.input_control)
 
-        self.input_screen = tkinter.Entry(self.root, font='Arial 20', bd=1, relief='solid', justify='right',
+        self.input_screen = tkinter.Entry(self.root, font='Arial 20 bold', bd=1, relief='solid', justify='right',
                                           width=18, textvariable=self.screen, exportselection=0)
         self.input_screen.focus()
 
-        self.btn_square_root = tkinter.Button(self.root, font='Arial 20', width=4, text='√')
-        self.btn_exponent = tkinter.Button(self.root, font='Arial 20', width=4, text='x²')
-        self.btn_clear = tkinter.Button(self.root, font='Arial 20', width=4, text='C')
-        self.btn_delete = tkinter.Button(self.root, font='Arial 20', width=4, text='<-')
+        self.btn_square_root = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='√')
+        self.btn_exponent = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='x²')
+        self.btn_clear = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='C')
+        self.btn_delete = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='<-')
 
-        self.btn_factorial = tkinter.Button(self.root, font='Arial 20', width=4, text='!')
-        self.btn_open_parentheses = tkinter.Button(self.root, font='Arial 20', width=4, text='(')
-        self.btn_close_parentheses = tkinter.Button(self.root, font='Arial 20', width=4, text=')')
-        self.btn_percentage = tkinter.Button(self.root, font='Arial 20', width=4, text='%')
+        self.btn_factorial = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='!')
+        self.btn_open_parentheses = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='(')
+        self.btn_close_parentheses = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=')')
+        self.btn_percentage = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='%')
 
-        self.btn_9 = tkinter.Button(self.root, font='Arial 20', width=4, text=9)
-        self.btn_8 = tkinter.Button(self.root, font='Arial 20', width=4, text=8)
-        self.btn_7 = tkinter.Button(self.root, font='Arial 20', width=4, text=7)
-        self.btn_division = tkinter.Button(self.root, font='Arial 20', width=4, text='/')
+        self.btn_9 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=9)
+        self.btn_8 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=8)
+        self.btn_7 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=7)
+        self.btn_division = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='/')
 
-        self.btn_6 = tkinter.Button(self.root, font='Arial 20', width=4, text=6)
-        self.btn_5 = tkinter.Button(self.root, font='Arial 20', width=4, text=5)
-        self.btn_4 = tkinter.Button(self.root, font='Arial 20', width=4, text=4)
-        self.btn_times = tkinter.Button(self.root, font='Arial 20', width=4, text='X')
+        self.btn_6 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=6)
+        self.btn_5 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=5)
+        self.btn_4 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=4)
+        self.btn_times = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='X')
 
-        self.btn_3 = tkinter.Button(self.root, font='Arial 20', width=4, text=3)
-        self.btn_2 = tkinter.Button(self.root, font='Arial 20', width=4, text=2)
-        self.btn_1 = tkinter.Button(self.root, font='Arial 20', width=4, text=1)
-        self.btn_minus = tkinter.Button(self.root, font='Arial 20', width=4, text='-')
+        self.btn_3 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=3)
+        self.btn_2 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=2)
+        self.btn_1 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=1)
+        self.btn_minus = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='-')
 
-        self.btn_dot = tkinter.Button(self.root, font='Arial 20', width=4, text='.')
-        self.btn_0 = tkinter.Button(self.root, font='Arial 20', width=4, text=0)
-        self.btn_equal = tkinter.Button(self.root, font='Arial 20', width=4, text='=')
-        self.btn_plus = tkinter.Button(self.root, font='Arial 20', width=4, text='+')
+        self.btn_dot = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='.')
+        self.btn_0 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=0)
+        self.btn_equal = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='=')
+        self.btn_plus = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='+')
 
         self.btn_factorial['command'] = lambda: self.add_screen('!')
         self.btn_open_parentheses['command'] = lambda: self.add_screen('(')

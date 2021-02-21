@@ -29,7 +29,7 @@ class Historic:
         scrollbar_x.pack(side="bottom", fill="x")
 
         text = tkinter.Listbox(window, yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set,
-                               font='Arial 15', width=300, justify='center')
+                               font='Arial 15 bold', width=300, justify='center')
 
         for item in self.historic_screen:
             text.insert("end", item)
@@ -39,6 +39,6 @@ class Historic:
         scrollbar_y.config(command=text.yview)
         scrollbar_x.config(command=text.xview)
 
-        btn_show_historic = tkinter.Button(window, font='Arial 15', text='RETURN')
+        btn_show_historic = tkinter.Button(window, font='Arial 15 bold', text='RETURN')
         btn_show_historic['command'] = lambda: self.show_historic(text, screen, window)
         btn_show_historic.pack()
