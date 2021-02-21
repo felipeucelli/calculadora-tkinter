@@ -80,7 +80,7 @@ class Calculador:
 
     def calculate_square_root(self):
         if len(self.screen.get()) > 1:
-            if self.screen.get().count('√') == 1:
+            if self.screen.get().count('√') == 1 and self.screen.get()[1] != '-':
                 if not self.screen.get().split('√')[1].isnumeric() and self.screen.get()[1].isnumeric():
                     if '!' in self.screen.get():
                         if self.screen.get()[len(self.screen.get()) - 1] == '!':
@@ -129,22 +129,25 @@ class Calculador:
 
     @staticmethod
     def calculate_percentage(screen):
-        percentage_include = ''
-        for v in screen:
-            if v.isnumeric() or v == '%' or v == '.':
-                percentage_include += v
+        if not screen.split('%')[0].isnumeric():
+            percentage_include = ''
+            for v in screen:
+                if v.isnumeric() or v == '%' or v == '.':
+                    percentage_include += v
+                else:
+                    percentage_include = ''
+            percentage_include = percentage_include.split('%')[0]
+            first_value = screen.split(percentage_include + '%')[0]
+            percentage_conversion = float(percentage_include) / 100
+            convert_first_value = first_value[0:len(first_value) - 1]
+            if not convert_first_value.isnumeric():
+                operation_first_value = eval(convert_first_value)
+                percentage_tot = float(operation_first_value) * float(percentage_conversion)
             else:
-                percentage_include = ''
-        percentage_include = percentage_include.split('%')[0]
-        first_value = screen.split(percentage_include + '%')[0]
-        percentage_conversion = float(percentage_include) / 100
-        convert_first_value = first_value.replace(first_value[len(first_value) - 1], '')
-        if not convert_first_value.isnumeric():
-            operation_first_value = eval(first_value.replace(first_value[len(first_value) - 1], ''))
-            percentage_tot = float(operation_first_value) * float(percentage_conversion)
+                percentage_tot = float(convert_first_value) * float(percentage_conversion)
+            return eval(first_value + str(percentage_tot))
         else:
-            percentage_tot = float(convert_first_value) * float(percentage_conversion)
-        return eval(first_value + str(percentage_tot))
+            return float(screen.split('%')[0]) / 100
 
     def convert_symbols(self):
         if '^' in self.screen.get():
