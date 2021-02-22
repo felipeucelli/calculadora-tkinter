@@ -78,6 +78,12 @@ class Calculador:
             else:
                 return False
 
+    def basic_operation(self, entry=''):
+        if entry == '':
+            return eval(self.screen.get())
+        else:
+            return eval(entry)
+
     def calculate_square_root(self):
         if len(self.screen.get()) > 1:
             if self.screen.get().count('√') == 1 and self.screen.get()[1] != '-':
@@ -189,9 +195,9 @@ class Calculador:
                             if self.screen.get().split('/')[1] == '0' and len(self.screen.get().split('/')[1]) == 1:
                                 screen_get_tot = 'Error'
                             else:
-                                screen_get_tot = eval(self.screen.get())
+                                screen_get_tot = self.basic_operation()
                         else:
-                            screen_get_tot = eval(self.screen.get())
+                            screen_get_tot = self.basic_operation()
                 elif self.screen.get()[len(self.screen.get()) - 1] == '%':
                     screen_get_tot = self.calculate_percentage(self.screen.get())
                 else:
