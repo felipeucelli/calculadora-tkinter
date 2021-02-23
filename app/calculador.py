@@ -1,14 +1,31 @@
+# -*- coding: utf-8 -*-
+
+# @autor: Felipe Ucelli
+# @github: github.com/felipeucelli
+
+# Built-in
 from math import sqrt, factorial
+
+# Módulo próprio
 from .historic import Historic
 
 
 class Calculador:
+    """
+    Classe responsável por realizar todos os calculos da calculadora
+
+    OBS: Poderia ser usado um bloco 'Try, except' para controle de fluxo, porém optei por tratar os possíveis erros
+    """
     def __init__(self, screen, control):
         self.screen = screen
         self.control = control
         self.historic = Historic()
 
     def duplicate_analysis(self):
+        """
+        Responsável por verficar se há algum operador dublicado em sequência
+        :return: 'True' se não houver operador duplicado, ou 'False' se houver
+        """
         analysis = True
         for k, v in enumerate(self.screen.get()):
             if not v.isnumeric():
@@ -18,6 +35,10 @@ class Calculador:
         return analysis
 
     def validate_characters(self):
+        """
+        Responsável por verificar se os valores estão de acordo com uma operação aritmética
+        :return: 'True' se os operadores estiverem de acordo, ou 'False' caso não estiverem
+        """
         if self.duplicate_analysis():
             validate_expression = False
             for k, v in enumerate(self.screen.get()):
@@ -61,6 +82,10 @@ class Calculador:
             return False
 
     def valid_operation(self):
+        """
+        Responsável por verificar o primeiro valor do input e se há algum valor alpha-numérico
+        :return: 'True' se não houver valor alpha-numérico, ou 'False' caso houver
+        """
         validate_symbols = False
         if self.screen.get()[0].isnumeric() or self.screen.get()[0] == '√' or self.screen.get()[0] == '-' or \
                 self.screen.get()[0] == '(':
@@ -79,33 +104,50 @@ class Calculador:
                 return False
 
     def basic_operation(self, entry=''):
+        """
+        Responsável por realizar operações aritméticas básícas
+        :param entry: Valor a ser calculado caso não for possível calcular o input
+        :return: Resultado da operação aritmética básica
+        """
         if entry == '':
             return eval(self.screen.get())
         else:
             return eval(entry)
 
     def calculate_square_root(self):
+        """
+        Responsável por calcular uma raiz quadrada
+        :return: Radiciação do input
+        """
         if len(self.screen.get()) > 1:
             if self.screen.get().count('√') == 1 and self.screen.get()[1] != '-':
                 if not self.screen.get().split('√')[1].isnumeric() and self.screen.get()[1].isnumeric():
+
+                    # Efetua a fatoração no input e sua radiciação, caso houver necessidade
                     if '!' in self.screen.get():
                         if self.screen.get()[len(self.screen.get()) - 1] == '!':
                             screen_get_tot = sqrt(float(self.calculate_factorial(
                                 self.screen.get().split('√')[1])))
                         else:
                             screen_get_tot = 'Error'
+
+                    # Efetua a razão centesimal no input e sua radiciação, caso houver necessidade
                     elif '%' in self.screen.get():
                         if self.screen.get()[len(self.screen.get()) - 1] == '%':
                             screen_get_tot = sqrt(float(self.calculate_percentage(
                                 self.screen.get().split('√')[1])))
                         else:
                             screen_get_tot = 'Error'
+
+                    # Efetua uma operação aritmética básica no input e sua radiciação, caso houver necessidade
                     else:
-                        square_root = eval(self.screen.get().split('√')[1])
+                        square_root = self.basic_operation(self.screen.get().split('√')[1])
                         if str(square_root)[0] != '-':
                             screen_get_tot = sqrt(float(square_root))
                         else:
                             screen_get_tot = 'Error'
+
+                # Efetua a radiciação do input
                 else:
                     square_root = self.screen.get().split('√')[1]
                     screen_get_tot = sqrt(float(square_root))
@@ -117,6 +159,11 @@ class Calculador:
 
     @staticmethod
     def calculate_factorial(screen):
+        """
+        Responsável por realizar a fatoração do input
+        :param screen: Valor a se fatorado
+        :return: Fatoração da entrada 'screen'
+        """
         factorial_ok = True
         if screen[len(screen) - 1] == '!':
             if '.' in screen:
@@ -138,6 +185,11 @@ class Calculador:
 
     @staticmethod
     def calculate_percentage(screen):
+        """
+        Responsável por realizar a razão centesimal do input
+        :param screen: Valor a ser realizado a razão centesimal
+        :return: Razão centesimal da entrada 'screen'
+        """
         if not screen.split('%')[0].isnumeric():
             percentage_include = ''
             for v in screen:
@@ -159,15 +211,27 @@ class Calculador:
             return float(screen.split('%')[0]) / 100
 
     def convert_symbols(self):
+        """
+        Responsável por converter alguns símbolos para a interpretação do python
+        :return: Valores convertidos para serem interpretados pelo python
+        """
+
+        # Converte o operador de exponenciação
         if '^' in self.screen.get():
             self.screen.set(self.screen.get().replace('^', '**'))
+
+        # Converte o operador de multiplicação
         if 'x' in self.screen.get():
             self.screen.set(self.screen.get().replace('x', '*'))
+
+        # Adiciona um operador de multiplicação antes do 'abre-parênteses' caso ele for antecedido por um número
         if '(' in self.screen.get():
             for k, _ in enumerate(self.screen.get()):
                 if len(self.screen.get()) > k + 1:
                     if self.screen.get()[k].isnumeric() and self.screen.get()[k + 1] == '(':
                         self.screen.set(self.screen.get().replace('(', '*('))
+
+        # Adiciona um operador de multiplicação após o 'fecha-parênteses' caso ele for precedido por um número
         if ')' in self.screen.get():
             for k, _ in enumerate(self.screen.get()):
                 if len(self.screen.get()) > k + 1:
@@ -175,8 +239,14 @@ class Calculador:
                         self.screen.set(self.screen.get().replace(')', ')*'))
 
     def math_operation(self):
+        """
+        Responsável por verficar a operação aritmética a ser realizada
+        :return: Seta o resultado das operações aritmética no input
+        """
         historic = self.screen.get()
         if self.screen.get() != '' and 'e' not in self.screen.get() and not self.screen.get().isnumeric():
+
+            # Remove os espaços no input
             if ' ' in historic:
                 historic = historic.replace(' ', '')
             if ' ' in self.screen.get():
@@ -184,10 +254,16 @@ class Calculador:
             if self.valid_operation():
                 screen_get_tot = ''
                 self.convert_symbols()
+
+                # Verifica se a operação a ser realizada é uma radiciação
                 if self.screen.get()[0] == '√':
                     screen_get_tot = self.calculate_square_root()
+
+                # Verifica se a operação a ser realizada é uma fatoração
                 elif '!' in self.screen.get():
                     screen_get_tot = self.calculate_factorial(self.screen.get())
+
+                # Verifica se a operação a ser realizada é uma operação aritmética básica
                 elif self.screen.get()[len(self.screen.get()) - 1].isnumeric() or \
                         self.screen.get()[len(self.screen.get()) - 1] == ')' and '√' not in self.screen.get():
                     if not self.screen.get().isnumeric():
@@ -198,6 +274,8 @@ class Calculador:
                                 screen_get_tot = self.basic_operation()
                         else:
                             screen_get_tot = self.basic_operation()
+
+                # Verifica se a operação a ser realizada é uma razão centesimal
                 elif self.screen.get()[len(self.screen.get()) - 1] == '%':
                     screen_get_tot = self.calculate_percentage(self.screen.get())
                 else:
@@ -205,10 +283,13 @@ class Calculador:
             else:
                 screen_get_tot = 'Error'
 
+            # verifica o resultado do input e retorna o seu respectivo valor
             if screen_get_tot == 'Error':
                 self.screen.set(screen_get_tot)
                 self.historic.add_historic(str(historic) + ' = Error')
             else:
+
+                # Formata o resultado em notação cientifica caso seja maior que 15 digitos
                 if len(str(screen_get_tot)) > 15:
                     self.screen.set(str(screen_get_tot)[0:15] + 'e')
                     self.control.set(str(screen_get_tot)[0:15] + 'e')
