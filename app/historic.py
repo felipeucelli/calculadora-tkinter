@@ -1,6 +1,6 @@
 import tkinter
 
-historic_screen = ['HISTORIC']
+historic_screen = ['HISTORIC:']
 
 
 class Historic:
@@ -19,7 +19,7 @@ class Historic:
 
     def open_historic(self, screen):
         window = tkinter.Toplevel()
-        window.geometry('300x290')
+        window.geometry('310x305')
         window.resizable(width=False, height=False)
 
         scrollbar_y = tkinter.Scrollbar(window, orient='vertical')
