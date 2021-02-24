@@ -45,15 +45,21 @@ class Calculador:
                 if not v.isnumeric() and self.screen.get()[0] != '√' and \
                         self.screen.get()[len(self.screen.get()) - 1] != '!' or v == '(' or \
                         v == ')':
+
+                    # Verifica se o ultimo valor do input é um número ou se é um operador válido
                     if self.screen.get()[len(self.screen.get()) - 1].isnumeric() or \
                             self.screen.get()[len(self.screen.get()) - 1] == ')' or \
                             self.screen.get()[len(self.screen.get()) - 1] == '%' or \
                             self.screen.get()[len(self.screen.get()) - 1] == '!':
+
+                        # Verifica se o valor que precede o operador é válido
                         if len(self.screen.get()) > k + 1:
                             if self.screen.get()[k + 1].isnumeric() or self.screen.get()[k + 1] == '-' or \
                                     self.screen.get()[k + 1] == '(':
                                 validate_expression = True
                             elif v == ')':
+                                validate_expression = True
+                            elif v == '!':
                                 validate_expression = True
                             else:
                                 validate_expression = False
@@ -164,22 +170,67 @@ class Calculador:
         :param screen: Valor a se fatorado
         :return: Fatoração da entrada 'screen'
         """
+
+        # Verifica se o input é um valor float
         factorial_ok = True
-        if screen[len(screen) - 1] == '!':
-            if '.' in screen:
-                for v in screen.split('.')[1]:
-                    if v != '0' and v != '!':
-                        factorial_ok = False
-                        break
-                    else:
-                        factorial_ok = True
-            else:
-                factorial_ok = True
+        if '.' in screen:
+            for v in screen.split('.')[1]:
+                if v != '0' and v != '!':
+                    factorial_ok = False
+                    break
+                else:
+                    factorial_ok = True
         else:
-            factorial_ok = False
+            factorial_ok = True
+
         if factorial_ok:
-            fact = eval(screen.split('!')[0])
-            return factorial(fact)
+
+            # Seta o número de operações a serem realizadas
+            if screen[len(screen) - 1] == '!':
+                loop = len(screen.split('!')) - 1
+            else:
+                loop = len(screen.split('!'))
+
+            if screen[len(screen) - 1] == '!':
+                last_fact = True
+            else:
+                last_fact = False
+
+            i = 0
+            fact_tot = ''
+            while loop > 0:
+                fact_1 = ''
+                fact_2 = ''
+                fact_3 = ''
+                if screen.split('!')[0].isnumeric() or screen.split('!')[0][0] == '-':
+                    if screen.split('!')[i].isnumeric():
+                        fact_1 = str(factorial(int(screen.split('!')[i])))
+                    else:
+                        if screen.split('!')[i][1:].isnumeric():
+                            if loop == 1:
+                                if last_fact:
+                                    fact_3 = screen.split('!')[i][0]
+                                    fact_3 += str(factorial(int(screen.split('!')[i][1:])))
+                                else:
+                                    fact_3 = screen.split('!')[i][0]
+                                    fact_3 += str(eval(screen.split('!')[i][1:]))
+                            else:
+                                fact_2 = screen.split('!')[i][0]
+                                fact_2 += str(factorial(int(screen.split('!')[i][1:])))
+                        else:
+                            fact_3 = screen.split('!')[i][0]
+                            fact_3 += str(eval(screen.split('!')[i]))
+                else:
+                    screen = screen.replace(str(screen.split('!')[0]), str(eval(screen.split('!')[0])))
+                    i -= 1
+                    loop += 1
+
+                fact_tot += str(fact_1) + str(fact_2) + str(fact_3)
+                i += 1
+                loop -= 1
+            if '--' in fact_tot:
+                fact_tot = fact_tot.replace('--', '-')
+            return str(eval(fact_tot))
         else:
             return 'Error'
 
