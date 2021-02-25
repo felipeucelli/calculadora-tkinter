@@ -11,7 +11,7 @@ historic_screen = ['HISTORIC:']
 
 class Historic:
     """
-    Responsável por gerar o histórico das operações aritméticas realizadas
+    Classe responsável por gerar o histórico das operações aritméticas
     """
     def __init__(self):
         global historic_screen

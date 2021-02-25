@@ -82,10 +82,7 @@ class Calculador:
         else:
             all_ok = False
 
-        if all_ok:
-            return True
-        else:
-            return False
+        return all_ok
 
     def valid_operation(self):
         """
@@ -102,10 +99,7 @@ class Calculador:
                     validate_symbols = False
                     break
             if validate_symbols:
-                if self.validate_characters():
-                    return True
-                else:
-                    return False
+                return self.validate_characters()
             else:
                 return False
 
@@ -191,21 +185,27 @@ class Calculador:
             else:
                 loop = len(screen.split('!'))
 
+            # Seta o valor do último operador do input
             if screen[len(screen) - 1] == '!':
                 last_fact = True
             else:
                 last_fact = False
-
             i = 0
             fact_tot = ''
             while loop > 0:
                 fact_1 = ''
                 fact_2 = ''
                 fact_3 = ''
+
+                # Verifica se a primeira ação é uma operação básica ou uma fatoração
                 if screen.split('!')[0].isnumeric() or screen.split('!')[0][0] == '-':
+
+                    # Realiza a fatoração simples
                     if screen.split('!')[i].isnumeric():
                         fact_1 = str(factorial(int(screen.split('!')[i])))
                     else:
+
+                        # Realiza a fatoração de valores que contenha operadores aritméticos básicos
                         if screen.split('!')[i][1:].isnumeric():
                             if loop == 1:
                                 if last_fact:
@@ -248,6 +248,8 @@ class Calculador:
                     percentage_include += v
                 else:
                     percentage_include = ''
+
+            # Converte os valores de entrada para valores percentuais
             percentage_include = percentage_include.split('%')[0]
             first_value = screen.split(percentage_include + '%')[0]
             percentage_conversion = float(percentage_include) / 100
