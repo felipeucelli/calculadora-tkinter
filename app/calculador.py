@@ -32,6 +32,7 @@ class Calculador:
                 if len(self.screen.get()) > k + 1:
                     if self.screen.get()[k + 1] == v:
                         analysis = False
+                        break
         return analysis
 
     def validate_characters(self):
