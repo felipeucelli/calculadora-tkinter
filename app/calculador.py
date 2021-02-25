@@ -61,6 +61,8 @@ class Calculador:
                                 validate_expression = True
                             elif v == '!':
                                 validate_expression = True
+                            elif v == '%':
+                                validate_expression = True
                             else:
                                 validate_expression = False
                                 break
@@ -316,6 +318,19 @@ class Calculador:
                 elif '!' in self.screen.get():
                     screen_get_tot = self.calculate_factorial(self.screen.get())
 
+                # Verifica se a operação a ser realizada é uma razão centesimal
+                elif '%' in self.screen.get():
+                    if self.screen.get()[len(self.screen.get()) - 1] == '%':
+                        screen_get_tot = self.calculate_percentage(self.screen.get())
+                    else:
+                        get_first_value = self.calculate_percentage(self.screen.get().split('%')[0])
+
+                        # Verifica se após o % é um número e faz as devidas alterações
+                        if self.screen.get().split('%')[1][0].isnumeric():
+                            self.screen.set(self.screen.get().replace(self.screen.get().split('%')[1][0],
+                                                                      '+' + self.screen.get().split('%')[1]))
+                        screen_get_tot = self.basic_operation(str(get_first_value) + (self.screen.get().split('%')[1]))
+
                 # Verifica se a operação a ser realizada é uma operação aritmética básica
                 elif self.screen.get()[len(self.screen.get()) - 1].isnumeric() or \
                         self.screen.get()[len(self.screen.get()) - 1] == ')' and '√' not in self.screen.get():
@@ -328,9 +343,6 @@ class Calculador:
                         else:
                             screen_get_tot = self.basic_operation()
 
-                # Verifica se a operação a ser realizada é uma razão centesimal
-                elif self.screen.get()[len(self.screen.get()) - 1] == '%':
-                    screen_get_tot = self.calculate_percentage(self.screen.get())
                 else:
                     screen_get_tot = 'Error'
             else:
