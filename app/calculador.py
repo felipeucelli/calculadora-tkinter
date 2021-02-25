@@ -43,7 +43,7 @@ class Calculador:
             validate_expression = False
             for k, v in enumerate(self.screen.get()):
                 if not v.isnumeric() and self.screen.get()[0] != '√' and \
-                        self.screen.get()[len(self.screen.get()) - 1] != '!' or v == '(' or \
+                        self.screen.get()[len(self.screen.get()) - 1] != '!' or v == '.' or v == '(' or \
                         v == ')':
 
                     # Verifica se o ultimo valor do input é um número ou se é um operador válido
@@ -60,6 +60,8 @@ class Calculador:
                             elif v == ')':
                                 validate_expression = True
                             elif v == '!':
+                                validate_expression = True
+                            elif v == '.' and self.screen.get()[k + 1].isnumeric():
                                 validate_expression = True
                             elif v == '%':
                                 validate_expression = True
@@ -175,6 +177,7 @@ class Calculador:
                     factorial_ok = False
                     break
                 else:
+                    screen = screen.split('.')[0]
                     factorial_ok = True
         else:
             factorial_ok = True
