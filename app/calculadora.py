@@ -25,6 +25,9 @@ class Calculadora:
         self.calculate = Calculador(self.screen, self.control)
         self.historic = Historic()
 
+        self.config_btn_num = {'font': 'Arial 20 bold', 'width': 4}
+        self.config_btn_operator = {'font': 'Arial 20 bold', 'width': 4}
+
         # Funções de inicialização
         self._interface()
         self._create_menu()
@@ -122,40 +125,40 @@ class Calculadora:
 
         # Instânciação dos botões númericos e operadores aritméticos
         # Linha 1
-        self.btn_square_root = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='√')
-        self.btn_exponent = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='x²')
-        self.btn_clear = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='C')
-        self.btn_delete = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='<-')
+        self.btn_square_root = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='√')
+        self.btn_exponent = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='x²')
+        self.btn_clear = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='C')
+        self.btn_delete = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='<-')
 
         # Linha 2
-        self.btn_factorial = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='!')
-        self.btn_open_parentheses = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='(')
-        self.btn_close_parentheses = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=')')
-        self.btn_percentage = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='%')
+        self.btn_factorial = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='!')
+        self.btn_open_parentheses = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='(')
+        self.btn_close_parentheses = tkinter.Button(self.root, cnf=[self.config_btn_operator], text=')')
+        self.btn_percentage = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='%')
 
         # Linha 3
-        self.btn_9 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=9)
-        self.btn_8 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=8)
-        self.btn_7 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=7)
-        self.btn_division = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='/')
+        self.btn_9 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=9)
+        self.btn_8 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=8)
+        self.btn_7 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=7)
+        self.btn_division = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='/')
 
         # Linha 4
-        self.btn_6 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=6)
-        self.btn_5 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=5)
-        self.btn_4 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=4)
-        self.btn_times = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='X')
+        self.btn_6 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=6)
+        self.btn_5 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=5)
+        self.btn_4 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=4)
+        self.btn_times = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='X')
 
         # Linha 5
-        self.btn_3 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=3)
-        self.btn_2 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=2)
-        self.btn_1 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=1)
-        self.btn_minus = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='-')
+        self.btn_3 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=3)
+        self.btn_2 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=2)
+        self.btn_1 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=1)
+        self.btn_minus = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='-')
 
         # Linha 6
-        self.btn_dot = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='.')
-        self.btn_0 = tkinter.Button(self.root, font='Arial 20 bold', width=4, text=0)
-        self.btn_equal = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='=')
-        self.btn_plus = tkinter.Button(self.root, font='Arial 20 bold', width=4, text='+')
+        self.btn_dot = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='.')
+        self.btn_0 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=0)
+        self.btn_equal = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='=')
+        self.btn_plus = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='+')
 
         # Eventos dos botões
         # Linha 1
