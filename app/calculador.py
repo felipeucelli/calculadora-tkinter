@@ -349,7 +349,32 @@ class Calculador:
 
                 # Verifica se a operação a ser realizada é uma fatoração
                 elif '!' in self.screen.get():
-                    screen_get_tot = self.calculate_factorial(self.screen.get())
+                    if '%' in self.screen.get():
+                        get_value = ''
+                        for k, v in enumerate(self.screen.get()):
+                            if self.screen.get()[k] == '%':
+                                i = -1
+                                while i < 0:
+                                    if self.screen.get()[k + i].isnumeric():
+                                        get_value += self.screen.get()[k + i]
+                                        i -= 1
+                                    else:
+                                        get_value = get_value[::-1]
+                                        break
+                        percentage_value = str(self.calculate_percentage(get_value + '%'))
+
+                        if self.screen.get()[len(self.screen.get()) - 1] == '!':
+                            factorial_value = self.screen.get().split('%')[1]
+                            get_factorial_value = self.calculate_factorial(factorial_value[1:])
+                            screen_get_tot = str(eval(percentage_value + factorial_value[0] + get_factorial_value))
+                        else:
+                            factorial_value = self.screen.get().replace(get_value + '%', '')
+                            get_factorial_value = self.calculate_factorial(factorial_value[:-1])
+                            screen_get_tot = str(eval(percentage_value + factorial_value[len(factorial_value) - 1] +
+                                                      get_factorial_value))
+
+                    else:
+                        screen_get_tot = self.calculate_factorial(self.screen.get())
 
                 # Verifica se a operação a ser realizada é uma razão centesimal
                 elif '%' in self.screen.get():
