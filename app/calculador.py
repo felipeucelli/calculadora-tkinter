@@ -202,38 +202,67 @@ class Calculador:
                 fact_1 = ''
                 fact_2 = ''
                 fact_3 = ''
+                if '!' in screen:
 
-                # Verifica se a primeira ação é uma operação básica ou uma fatoração
-                if screen.split('!')[0].isnumeric() or screen.split('!')[0][0] == '-':
+                    # Verifica se a primeira ação é uma operação básica ou uma fatoração
+                    if screen.split('!')[0].isnumeric() or screen.split('!')[0][0] == '-':
 
-                    # Realiza a fatoração simples
-                    if screen.split('!')[i].isnumeric():
-                        fact_1 = str(factorial(int(screen.split('!')[i])))
-                    else:
-
-                        # Realiza a fatoração de valores que contenha operadores aritméticos básicos
-                        if screen.split('!')[i][1:].isnumeric():
-                            if loop == 1:
-                                if last_fact:
-                                    fact_3 = screen.split('!')[i][0]
-                                    fact_3 += str(factorial(int(screen.split('!')[i][1:])))
-                                else:
-                                    fact_3 = screen.split('!')[i][0]
-                                    fact_3 += str(eval(screen.split('!')[i][1:]))
-                            else:
-                                fact_2 = screen.split('!')[i][0]
-                                fact_2 += str(factorial(int(screen.split('!')[i][1:])))
+                        # Realiza a fatoração simples
+                        if screen.split('!')[i].isnumeric():
+                            fact_1 = str(factorial(int(screen.split('!')[i])))
                         else:
-                            fact_3 = screen.split('!')[i][0]
-                            fact_3 += str(eval(screen.split('!')[i]))
-                else:
-                    screen = screen.replace(str(screen.split('!')[0]), str(eval(screen.split('!')[0])))
-                    i -= 1
-                    loop += 1
 
-                fact_tot += str(fact_1) + str(fact_2) + str(fact_3)
-                i += 1
-                loop -= 1
+                            # Realiza a fatoração de valores que contenha operadores aritméticos básicos
+                            if screen.split('!')[i][1:].isnumeric():
+                                if loop == 1:
+                                    if last_fact:
+                                        fact_3 = screen.split('!')[i][0]
+                                        fact_3 += str(factorial(int(screen.split('!')[i][1:])))
+                                    else:
+                                        fact_3 = screen.split('!')[i][0]
+                                        fact_3 += str(eval(screen.split('!')[i][1:]))
+                                else:
+                                    fact_2 = screen.split('!')[i][0]
+                                    fact_2 += str(factorial(int(screen.split('!')[i][1:])))
+                            else:
+                                fact_3 = screen.split('!')[i][0]
+                                fact_3 += str(eval(screen.split('!')[i]))
+                    else:
+                        get_first_value = screen.split('!')[0]
+                        factorial_value = ''
+                        operation_value = ''
+
+                        # Seta os valores a serem fatorados
+                        for v in get_first_value:
+                            if v.isnumeric():
+                                factorial_value += v
+                            else:
+                                factorial_value = ''
+
+                        # Seta os valores para realizar a operação básica com a fatoração
+                        for v in get_first_value:
+                            if not v.isnumeric():
+                                if get_first_value.split(v)[1].isnumeric():
+                                    operation_value += v
+                                    break
+                            operation_value += v
+
+                        # Fatoração
+                        calculate_first_value = factorial(int(factorial_value))
+
+                        # Realização da operação aritmética básica junto com o resultado da fatoração
+                        get_first_value = eval(str(operation_value)+str(calculate_first_value))
+                        screen = screen.replace(str(screen.split('!')[0]), str(get_first_value)+'!')
+                        screen = screen.replace('!!', '')
+                        i -= 1
+                        loop += 1
+
+                    fact_tot += str(fact_1) + str(fact_2) + str(fact_3)
+                    i += 1
+                    loop -= 1
+                else:
+                    fact_tot = screen
+                    break
             if '--' in fact_tot:
                 fact_tot = fact_tot.replace('--', '-')
             return str(eval(fact_tot))
