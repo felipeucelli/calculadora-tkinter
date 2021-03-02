@@ -55,6 +55,10 @@ class Calculador:
 
                         # Verifica se o valor que precede o operador é válido
                         if len(self.screen.get()) > k + 1:
+                            if v == '.':
+                                if not self.screen.get()[k + 1].isnumeric():
+                                    validate_expression = False
+                                    break
                             if self.screen.get()[k + 1].isnumeric() or self.screen.get()[k + 1] == '-' or \
                                     self.screen.get()[k + 1] == '(':
                                 validate_expression = True
