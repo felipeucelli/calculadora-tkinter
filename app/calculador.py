@@ -331,8 +331,10 @@ class Calculador:
         Responsável por verficar a operação aritmética a ser realizada
         :return: Seta o resultado das operações aritmética no input
         """
-        historic = self.screen.get()
-        if self.screen.get() != '' and 'e' not in self.screen.get() and not self.screen.get().isnumeric():
+
+        if self.screen.get() != '' and 'e' not in self.screen.get() and not self.screen.get().isnumeric() and \
+                self.screen.get() != 'Error':
+            historic = self.screen.get()
 
             # Remove os espaços no input
             if ' ' in historic:
