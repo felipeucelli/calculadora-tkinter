@@ -76,6 +76,9 @@ class Calculador:
                     else:
                         validate_expression = False
                         break
+                elif v == '√' and k != 0:
+                    validate_expression = False
+                    break
                 else:
                     validate_expression = True
             if validate_expression:
