@@ -360,7 +360,7 @@ class Calculador:
                 elif '!' in self.screen.get():
                     if '%' in self.screen.get():
                         get_value = ''
-                        for k, v in enumerate(self.screen.get()):
+                        for k, _ in enumerate(self.screen.get()):
                             if self.screen.get()[k] == '%':
                                 i = -1
                                 while i < 0:
