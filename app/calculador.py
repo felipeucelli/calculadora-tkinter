@@ -35,7 +35,7 @@ class Calculador:
                         break
         return analysis
 
-    def validate_characters(self):
+    def valid_characters(self):
         """
         Responsável por verificar se os valores estão de acordo com uma operação aritmética
         :return: 'True' se os operadores estiverem de acordo, ou 'False' caso não estiverem
@@ -43,9 +43,7 @@ class Calculador:
         if self.duplicate_analysis():
             validate_expression = False
             for k, v in enumerate(self.screen.get()):
-                if not v.isnumeric() and self.screen.get()[0] != '√' and \
-                        self.screen.get()[len(self.screen.get()) - 1] != '!' or v == '.' or v == '(' or \
-                        v == ')':
+                if not v.isnumeric():
 
                     # Verifica se o ultimo valor do input é um número ou se é um operador válido
                     if self.screen.get()[len(self.screen.get()) - 1].isnumeric() or \
@@ -53,12 +51,16 @@ class Calculador:
                             self.screen.get()[len(self.screen.get()) - 1] == '%' or \
                             self.screen.get()[len(self.screen.get()) - 1] == '!':
 
+                        if v == '.':
+                            if not self.screen.get()[k + 1].isnumeric():
+                                validate_expression = False
+                                break
+                        if v == '√':
+                            if self.screen.get()[0] != '√':
+                                validate_expression = False
+                                break
                         # Verifica se o valor que precede o operador é válido
                         if len(self.screen.get()) > k + 1:
-                            if v == '.':
-                                if not self.screen.get()[k + 1].isnumeric():
-                                    validate_expression = False
-                                    break
                             if self.screen.get()[k + 1].isnumeric() or self.screen.get()[k + 1] == '-' or \
                                     self.screen.get()[k + 1] == '(':
                                 validate_expression = True
@@ -101,17 +103,17 @@ class Calculador:
         Responsável por verificar o primeiro valor do input e se há algum valor alpha-numérico
         :return: 'True' se não houver valor alpha-numérico, ou 'False' caso houver
         """
-        validate_symbols = False
+        validation_first_value = False
         if self.screen.get()[0].isnumeric() or self.screen.get()[0] == '√' or self.screen.get()[0] == '-' or \
                 self.screen.get()[0] == '(':
             for c in self.screen.get():
                 if not c.isalpha() or c == 'x':
-                    validate_symbols = True
+                    validation_first_value = True
                 else:
-                    validate_symbols = False
+                    validation_first_value = False
                     break
-            if validate_symbols:
-                return self.validate_characters()
+            if validation_first_value:
+                return self.valid_characters()
             else:
                 return False
 
@@ -132,7 +134,9 @@ class Calculador:
         :return: Radiciação do input
         """
         if len(self.screen.get()) > 1:
-            if self.screen.get().count('√') == 1 and self.screen.get()[1] != '-':
+
+            # Verifica se existe apenas uma radiciação e se o valor que o precede é válido
+            if self.screen.get().count('√') == 1 and self.screen.get()[1].isnumeric():
                 if not self.screen.get().split('√')[1].isnumeric() and self.screen.get()[1].isnumeric():
 
                     # Efetua a fatoração no input e sua radiciação, caso houver necessidade
