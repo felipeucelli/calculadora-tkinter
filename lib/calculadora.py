@@ -7,7 +7,7 @@
 import tkinter
 import json
 import sys
-from os import execl
+import os
 from functools import partial
 
 # Módulos próprios
@@ -44,7 +44,8 @@ class Calculadora:
         Responsável por carregar o arquivo "setting.json"
         :return: Retorna um dicionário das propriedades em "setting.json"
         """
-        with open('app/setting.json', 'r') as settings:
+
+        with open('./lib/config/setting.json', 'r') as settings:
             settings = json.load(settings)
         return settings
 
@@ -54,8 +55,9 @@ class Calculadora:
         :param theme: Tema selecionado, padrão Dark
         :return:
         """
+
         self.settings['active_theme'] = theme
-        with open('app/setting.json', 'w') as file:
+        with open('./lib/config/setting.json', 'w') as file:
             json.dump(self.settings, file, indent=4)
         self.restart()
 
@@ -64,6 +66,7 @@ class Calculadora:
         Responsável por carregar e selecionar os temas disponíveis no menu de opções
         :return:
         """
+
         self.settings = self.load_theme_settings()
         self.config = self.settings['themes']
         self.config = self.config[self.settings['active_theme']]
@@ -92,6 +95,7 @@ class Calculadora:
         Responsável por remover o último valor digitado
         :return:
         """
+
         if self.screen.get() != 'Error' and 'e' not in self.screen.get():
             valor = self.screen.get()[:-1]
             self.screen.set(valor)
@@ -101,6 +105,7 @@ class Calculadora:
         Responsável pela remoção de todos os valores no input
         :return:
         """
+
         self.control.set('')
         self.screen.set('')
 
@@ -110,6 +115,7 @@ class Calculadora:
         :param args:
         :return:
         """
+
         _none = args
         _none = None
 
@@ -136,6 +142,7 @@ class Calculadora:
         Responsável por instanciar o menu na interface
         :return:
         """
+
         self.new_menu = tkinter.Menu(self.root)
         self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
         self.option_theme = tkinter.Menu(self.option_menu, tearoff=0)
@@ -296,7 +303,7 @@ class Calculadora:
         python_path = sys.executable
 
         # Execulta o script python do path recuperado
-        execl(python_path, python_path, *sys.argv)
+        os.execl(python_path, python_path, *sys.argv)
 
     def start(self):
         """
