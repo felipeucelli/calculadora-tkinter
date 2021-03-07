@@ -17,7 +17,11 @@ from .historic import Historic
 
 class Calculadora:
     """
-    Classe para a criação do layout, distribuição e adição de funcionalidade dos botões.
+    Classe para a criação do layout e menus, distribuição e adição de funcionalidade dos botões.
+
+    OBS: Caso queira compilar o pacote, altere o path das funções "load_theme_settings" e "apply_theme", pois o
+        correto funcionamento da calculadora depende do carregamento do arquivo "setting.json" e o mesmo não é
+        incluido na compilação"
     """
 
     def __init__(self, root):
@@ -45,6 +49,7 @@ class Calculadora:
         :return: Retorna um dicionário das propriedades em "setting.json"
         """
 
+        # Carrega as configurações do arquivo "setting.json"
         with open('./lib/config/setting.json', 'r') as settings:
             settings = json.load(settings)
         return settings
@@ -56,9 +61,14 @@ class Calculadora:
         :return:
         """
 
+        # Seta o valor de "active_theme"
         self.settings['active_theme'] = theme
+
+        # Atualiza o "active_theme" no arquivo "setting.json"
         with open('./lib/config/setting.json', 'w') as file:
             json.dump(self.settings, file, indent=4)
+
+        # Reinicia a aplicação
         self.restart()
 
     def _load_themes(self):
@@ -67,9 +77,16 @@ class Calculadora:
         :return:
         """
 
+        # Carrega o return de load_theme_settings
         self.settings = self.load_theme_settings()
+
+        # Carrega os temas disponíveis em self.config
         self.config = self.settings['themes']
+
+        # Carrega o "active_theme" em self.config
         self.config = self.config[self.settings['active_theme']]
+
+        # Seta os temas disponíveis no menu Themes
         for theme_name in self.settings["options"]:
             self.option_theme.add_command(label=theme_name, command=partial(self.apply_theme, theme_name))
 
@@ -127,13 +144,23 @@ class Calculadora:
         # Verifica se o valor de entrada é válido e faz as devidas alterações
         if len(self.screen.get()) > 0 and 'E' not in self.screen.get() and 'ror' not in self.screen.get():
             for v in self.screen.get():
+
+                # Verifica se o input está travado, caso contrário adiciona o valor no input
                 if 'e' not in self.screen.get():
+
+                    # Verifica se valor recebido é alpha-numérico e adiciona no input caso não seja
                     if not v.isalpha() or v == 'x':
                         self.screen.set(self.screen.get())
+
+                    # Caso o valor seja alpha-numérico, é substituído por ''
                     else:
                         self.screen.set(self.screen.get().replace(v, ''))
+
+                # Caso o o input estiver travado, os valores recebidos serão susbstituídos por ''
                 if v == 'e' and self.control.get() == '':
                     self.screen.set(self.screen.get().replace(v, ''))
+
+        # Caso o valor do input seja um erro, permanecerá o erro até que o input seja limpo
         elif 'E' in self.screen.get() or 'ror' in self.screen.get():
             self.screen.set('Error')
 
