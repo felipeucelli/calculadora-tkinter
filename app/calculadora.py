@@ -6,6 +6,8 @@
 # Built-in
 import tkinter
 import json
+import sys
+from os import execl
 from functools import partial
 
 # Módulos próprios
@@ -46,7 +48,7 @@ class Calculadora:
             settings = json.load(settings)
         return settings
 
-    def apply_theme(self, theme='dark'):
+    def apply_theme(self, theme='Dark'):
         """
         Responsável por definir o tema ativo
         :param theme: Tema selecionado, padrão Dark
@@ -55,6 +57,7 @@ class Calculadora:
         self.settings['active_theme'] = theme
         with open('app/setting.json', 'w') as file:
             json.dump(self.settings, file, indent=4)
+        self.restart()
 
     def _load_themes(self):
         """
@@ -281,6 +284,19 @@ class Calculadora:
         :return:
         """
         self.root.destroy()
+
+    @staticmethod
+    def restart():
+        """
+        Responsável por reiniciar a aplicação
+        :return:
+        """
+
+        # Recupera o path
+        python_path = sys.executable
+
+        # Execulta o script python do path recuperado
+        execl(python_path, python_path, *sys.argv)
 
     def start(self):
         """
