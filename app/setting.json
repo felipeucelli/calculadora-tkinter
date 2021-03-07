@@ -1,0 +1,90 @@
+{
+    "active_theme": "Light",
+    "options": [
+        "Dark",
+        "Light"
+    ],
+    "themes": {
+        "Dark": {
+            "root": {
+                "bg": "#222729"
+            },
+            "input": {
+                "font": "Arial 20 bold",
+                "bg": "#252729",
+                "fg": "#FFFFFF",
+                "bd": 1,
+                "relief": "solid",
+                "justify": "right"
+            },
+            "btn_num": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#050505",
+                "fg": "#FFFFFF",
+                "activebackground": "#4F4F4F",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            },
+            "btn_op": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#0E0F0F",
+                "fg": "#F5F6FA",
+                "activebackground": "#0097C6",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            },
+            "btn_delete": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#0E0F0F",
+                "fg": "#FFFFFF",
+                "activebackground": "#DD0000",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            }
+        },
+        "Light": {
+            "root": {
+                "bg": "#FFFFFF"
+            },
+            "input": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#FFFFFF",
+                "fg": "#000000",
+                "bd": 1,
+                "relief": "solid",
+                "justify": "right"
+            },
+            "btn_num": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#C0C0C0",
+                "fg": "#000000",
+                "activebackground": "#999999",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            },
+            "btn_op": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#D9D9D9",
+                "fg": "#000000",
+                "activebackground": "#0097C6",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            },
+            "btn_delete": {
+                "font": "Arial 20 bold",
+                "width": 4,
+                "bg": "#D9D9D9",
+                "fg": "#000000",
+                "activebackground": "#DD0000",
+                "highlightthickness": 0,
+                "borderwidth": 0
+            }
+        }
+    }
+}

@@ -5,6 +5,8 @@
 
 # Built-in
 import tkinter
+import json
+from functools import partial
 
 # Módulos próprios
 from .calculador import Calculador
@@ -20,33 +22,50 @@ class Calculadora:
         self.root = root
         self.root.title('Calculadora Tk')
         self.root.resizable(width=False, height=False)
-        self.root['bg'] = '#252729'
 
         self.screen = tkinter.StringVar()
         self.control = tkinter.StringVar()
         self.calculate = Calculador(self.screen, self.control)
         self.historic = Historic()
 
-        # Seta as configurações (font, width, background color, foreground color) dos botões
-        self.config_btn_num = {'font': 'Arial 20 bold', 'width': 4, 'bg': '#050505',
-                               'fg': '#ffffff', 'activebackground': '#4f4f4f', 'activeforeground': '#000000',
-                               'highlightthickness': 0, "borderwidth": 0}
-
-        self.config_btn_operator = {'font': 'Arial 20 bold', 'width': 4, 'bg': '#0e0f0f',
-                                    'fg': '#ffffff', 'activebackground': '#0097e6', 'activeforeground': '#000000',
-                                    'highlightthickness': 0, "borderwidth": 0}
-
-        self.config_btn_delete = {'font': 'Arial 20 bold', 'width': 4, 'bg': '#0e0f0f',
-                                  'fg': '#ffffff', 'activebackground': '#ff0000', 'activeforeground': '#000000',
-                                  'highlightthickness': 0, "borderwidth": 0}
-
-        self.config_btn_equal = {'font': 'Arial 20 bold', 'width': 4, 'bg': '#0e0f0f',
-                                 'fg': '#ffffff', 'activebackground': '#0097e6', 'activeforeground': '#000000',
-                                 'highlightthickness': 0, "borderwidth": 0}
-
         # Funções de inicialização
-        self._interface()
         self._create_menu()
+        self._load_themes()
+        self._interface()
+
+        # Seta o background color do root
+        self.root['bg'] = self.config['root']['bg']
+
+    @staticmethod
+    def load_theme_settings():
+        """
+        Responsável por carregar o arquivo "setting.json"
+        :return: Retorna um dicionário das propriedades em "setting.json"
+        """
+        with open('app/setting.json', 'r') as settings:
+            settings = json.load(settings)
+        return settings
+
+    def apply_theme(self, theme='dark'):
+        """
+        Responsável por definir o tema ativo
+        :param theme: Tema selecionado, padrão Dark
+        :return:
+        """
+        self.settings['active_theme'] = theme
+        with open('app/setting.json', 'w') as file:
+            json.dump(self.settings, file, indent=4)
+
+    def _load_themes(self):
+        """
+        Responsável por carregar e selecionar os temas disponíveis no menu de opções
+        :return:
+        """
+        self.settings = self.load_theme_settings()
+        self.config = self.settings['themes']
+        self.config = self.config[self.settings['active_theme']]
+        for theme_name in self.settings["options"]:
+            self.option_theme.add_command(label=theme_name, command=partial(self.apply_theme, theme_name))
 
     def add_screen(self, bnt_press):
         """
@@ -116,7 +135,9 @@ class Calculadora:
         """
         self.new_menu = tkinter.Menu(self.root)
         self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
+        self.option_theme = tkinter.Menu(self.option_menu, tearoff=0)
         self.option_menu.add_command(label='Historic', command=lambda: self.historic.open_historic(screen=self.screen))
+        self.option_menu.add_cascade(label='Themes', menu=self.option_theme)
         self.option_menu.add_separator()
         self.option_menu.add_command(label='Exit', command=lambda: self.sair())
         self.new_menu.add_cascade(label='Options', menu=self.option_menu)
@@ -133,48 +154,48 @@ class Calculadora:
 
         # Instânciação da área de input
         # Linha 0
-        self.input_screen = tkinter.Entry(self.root, font='Arial 20 bold', bd=1, relief='solid', justify='right',
-                                          textvariable=self.screen, exportselection=0, bg='#252729', fg='#ffffff')
+        self.input_screen = tkinter.Entry(self.root, textvariable=self.screen, exportselection=0,
+                                          cnf=[self.config['input']])
 
         # Seta o foco para o input
         self.input_screen.focus()
 
         # Instânciação dos botões númericos e operadores aritméticos
         # Linha 1
-        self.btn_square_root = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='√')
-        self.btn_exponent = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='x²')
-        self.btn_clear = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='C')
-        self.btn_delete = tkinter.Button(self.root, cnf=[self.config_btn_delete], text='<-')
+        self.btn_square_root = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='√')
+        self.btn_exponent = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='x²')
+        self.btn_clear = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='C')
+        self.btn_delete = tkinter.Button(self.root, cnf=[self.config['btn_delete']], text='<-')
 
         # Linha 2
-        self.btn_factorial = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='!')
-        self.btn_open_parentheses = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='(')
-        self.btn_close_parentheses = tkinter.Button(self.root, cnf=[self.config_btn_operator], text=')')
-        self.btn_percentage = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='%')
+        self.btn_factorial = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='!')
+        self.btn_open_parentheses = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='(')
+        self.btn_close_parentheses = tkinter.Button(self.root, cnf=[self.config['btn_op']], text=')')
+        self.btn_percentage = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='%')
 
         # Linha 3
-        self.btn_9 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=9)
-        self.btn_8 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=8)
-        self.btn_7 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=7)
-        self.btn_division = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='/')
+        self.btn_9 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=9)
+        self.btn_8 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=8)
+        self.btn_7 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=7)
+        self.btn_division = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='/')
 
         # Linha 4
-        self.btn_6 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=6)
-        self.btn_5 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=5)
-        self.btn_4 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=4)
-        self.btn_times = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='X')
+        self.btn_6 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=6)
+        self.btn_5 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=5)
+        self.btn_4 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=4)
+        self.btn_times = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='X')
 
         # Linha 5
-        self.btn_3 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=3)
-        self.btn_2 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=2)
-        self.btn_1 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=1)
-        self.btn_minus = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='-')
+        self.btn_3 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=3)
+        self.btn_2 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=2)
+        self.btn_1 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=1)
+        self.btn_minus = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='-')
 
         # Linha 6
-        self.btn_dot = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='.')
-        self.btn_0 = tkinter.Button(self.root, cnf=[self.config_btn_num], text=0)
-        self.btn_equal = tkinter.Button(self.root, cnf=[self.config_btn_equal], text='=')
-        self.btn_plus = tkinter.Button(self.root, cnf=[self.config_btn_operator], text='+')
+        self.btn_dot = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='.')
+        self.btn_0 = tkinter.Button(self.root, cnf=[self.config['btn_num']], text=0)
+        self.btn_equal = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='=')
+        self.btn_plus = tkinter.Button(self.root, cnf=[self.config['btn_op']], text='+')
 
         # Eventos dos botões
         # Linha 1
