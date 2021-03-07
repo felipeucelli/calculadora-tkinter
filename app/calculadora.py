@@ -17,7 +17,7 @@ class Calculadora:
     """
     Classe para a criação do layout, distribuição e adição de funcionalidade dos botões.
     """
-    
+
     def __init__(self, root):
         self.root = root
         self.root.title('Calculadora Tk')
@@ -136,7 +136,8 @@ class Calculadora:
         self.new_menu = tkinter.Menu(self.root)
         self.option_menu = tkinter.Menu(self.new_menu, tearoff=0)
         self.option_theme = tkinter.Menu(self.option_menu, tearoff=0)
-        self.option_menu.add_command(label='Historic', command=lambda: self.historic.open_historic(screen=self.screen))
+        self.option_menu.add_command(label='Historic',
+                                     command=lambda: self.historic.open_historic(self.screen, self.config))
         self.option_menu.add_cascade(label='Themes', menu=self.option_theme)
         self.option_menu.add_separator()
         self.option_menu.add_command(label='Exit', command=lambda: self.sair())

@@ -17,14 +17,7 @@ class Historic:
     def __init__(self):
         global historic_screen
         self.historic_screen = historic_screen
-
-        # Seta as propriedades (font, bg, fg, width, justify) da listbox
-        self.listbox_config = {'font': 'Arial 15 bold', 'width': 300, 'justify': 'center', 'bg': '#0e0f0f',
-                               'fg': '#ffffff', 'highlightthickness': 0}
-
-        # Seta as propriedades (font, text, bg, fg) do botão
-        self.btn_config = {'font': 'Arial 15 bold', 'text': 'RETURN', 'bg': '#000000', 'fg': '#ffffff',
-                           'activebackground': '#252729', 'activeforeground': '#ffffff'}
+        self.config = ''
 
     def add_historic(self, historic):
         """
@@ -47,16 +40,18 @@ class Historic:
             screen.set((text.get('active')).split(' =')[0])
             window.destroy()
 
-    def open_historic(self, screen):
+    def open_historic(self, screen, config):
         """
         Instânciação da interface do histórico
+        :param config: Configuração e temas
         :param screen: input
         :return:
         """
+        self.config = config
         window = tkinter.Toplevel()
         window.geometry('310x305')
         window.resizable(width=False, height=False)
-        window['bg'] = '#0e0f0f'
+        window['bg'] = self.config['root']['bg']
 
         # Instânciação do scrollbar vertical
         scrollbar_y = tkinter.Scrollbar(window, orient='vertical')
@@ -67,7 +62,7 @@ class Historic:
         scrollbar_x.pack(side="bottom", fill="x")
 
         # Instânciação do Listbox do histórico
-        text = tkinter.Listbox(window, cnf=[self.listbox_config],
+        text = tkinter.Listbox(window, cnf=[self.config['listbox_historic']],
                                yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set)
 
         # Adiciona os itens da lista 'historic_screen' no Listbox
@@ -80,7 +75,7 @@ class Historic:
         scrollbar_x.config(command=text.xview)
 
         # Instânciação do botão de retorno para o input
-        btn_show_historic = tkinter.Button(window, self.btn_config)
+        btn_show_historic = tkinter.Button(window, self.config['btn_return_historic'])
 
         # Evento do botão de retorno
         btn_show_historic['command'] = lambda: self.show_historic(text, screen, window)

@@ -1,5 +1,5 @@
 {
-    "active_theme": "Light",
+    "active_theme": "Dark",
     "options": [
         "Dark",
         "Light"
@@ -43,6 +43,22 @@
                 "activebackground": "#DD0000",
                 "highlightthickness": 0,
                 "borderwidth": 0
+            },
+            "btn_return_historic": {
+                "font": "Arial 15 bold",
+                "text": "RETURN",
+                "bg": "#1E1E1E",
+                "fg": "#ffffff",
+                "activebackground": "#2D2D2D",
+                "activeforeground": "#ffffff"
+            },
+            "listbox_historic": {
+                "font": "Arial 15 bold",
+                "width": 300,
+                "justify": "center",
+                "bg": "#222729",
+                "fg": "#ffffff",
+                "highlightthickness": 0
             }
         },
         "Light": {
@@ -84,6 +100,22 @@
                 "activebackground": "#DD0000",
                 "highlightthickness": 0,
                 "borderwidth": 0
+            },
+            "btn_return_historic": {
+                "font": "Arial 15 bold",
+                "text": "RETURN",
+                "bg": "#D9D9D9",
+                "fg": "#000000",
+                "activebackground": "#E9E9E9",
+                "activeforeground": "#000000"
+            },
+            "listbox_historic": {
+                "font": "Arial 15 bold",
+                "width": 300,
+                "justify": "center",
+                "bg": "#FFFFFF",
+                "fg": "#000000",
+                "highlightthickness": 0
             }
         }
     }
