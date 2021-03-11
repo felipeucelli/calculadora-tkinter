@@ -344,6 +344,10 @@ class Calculador:
                         self.screen.set(self.screen.get().replace(')', ')*'))
 
     def valid_command(self):
+        """
+        Responsável por verificar se a ação de calcular é valida
+        :return:
+        """
         if self.screen.get() != '' and 'e' not in self.screen.get() and self.screen.get() != 'Error':
             if '+' in self.screen.get() or '-' in self.screen.get() or 'x' in self.screen.get() or \
                     '/' in self.screen.get() or '^' in self.screen.get() or '!' in self.screen.get() or \
@@ -360,6 +364,7 @@ class Calculador:
         :return: Seta o resultado das operações aritmética no input
         """
 
+        # Valida o comando
         if self.valid_command():
             historic = self.screen.get()
 
@@ -368,6 +373,7 @@ class Calculador:
                 historic = historic.replace(' ', '')
             if ' ' in self.screen.get():
                 self.screen.set(self.screen.get().replace(' ', ''))
+                
             if self.valid_operation():
                 screen_get_tot = ''
                 self.convert_symbols()
