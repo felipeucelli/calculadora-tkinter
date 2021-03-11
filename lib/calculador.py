@@ -343,14 +343,24 @@ class Calculador:
                     if self.screen.get()[k] == ')' and self.screen.get()[k + 1].isnumeric():
                         self.screen.set(self.screen.get().replace(')', ')*'))
 
+    def valid_command(self):
+        if self.screen.get() != '' and 'e' not in self.screen.get() and self.screen.get() != 'Error':
+            if '+' in self.screen.get() or '-' in self.screen.get() or 'x' in self.screen.get() or \
+                    '/' in self.screen.get() or '^' in self.screen.get() or '!' in self.screen.get() or \
+                    '√' in self.screen.get():
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def math_operation(self):
         """
         Responsável por verficar a operação aritmética a ser realizada
         :return: Seta o resultado das operações aritmética no input
         """
 
-        if self.screen.get() != '' and 'e' not in self.screen.get() and not self.screen.get().isnumeric() and \
-                self.screen.get() != 'Error':
+        if self.valid_command():
             historic = self.screen.get()
 
             # Remove os espaços no input
